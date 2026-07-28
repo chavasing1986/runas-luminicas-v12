@@ -23,7 +23,7 @@ function root(n){while(n>9)n=String(n).split("").reduce((a,b)=>a+Number(b),0);re
 function analyze(raw){
   const normalized=normalizeName(raw),letters=[...normalized].filter(c=>ALPHABET.includes(c)),values=letters.map(valueOf),sum=values.reduce((a,b)=>a+b,0);
   const counts={};letters.forEach(c=>counts[c]=(counts[c]||0)+1);
-  const unique=[...new Set(letters)],vowels=letters.filter(c=>VOWELS.has(c)).length,frequency=root(sum),seed=hash(`${normalized}|${values.join(".")}|FIRMA-V15`);
+  const unique=[...new Set(letters)],vowels=letters.filter(c=>VOWELS.has(c)).length,frequency=root(sum),seed=hash(`${normalized}|${values.join(".")}|FIRMA-V16`);
   const sequence=values.map(v=>String(v).padStart(2,"0")).join(".");
   return{normalized,letters,values,sum,counts,unique,vowels,consonants:letters.length-vowels,frequency,seed,sequence,
     repeats:Object.values(counts).filter(n=>n>1).length,axes:5+(unique.length%5),rings:2+(frequency%4),sides:5+(sum%5),arch:seed%ARCHS.length}
@@ -34,6 +34,22 @@ function pathD(points){return points.map((p,i)=>`${i?"L":"M"} ${p[0].toFixed(2)}
 function polygon(sides,r,rot=0){const p=[];for(let i=0;i<=sides;i++){const a=rot+(i%sides)*Math.PI*2/sides;p.push([Math.cos(a)*r,Math.sin(a)*r])}return p}
 function circlePoints(r,n=120,rot=0,sx=1,sy=1){const p=[];for(let i=0;i<=n;i++){const a=rot+i*Math.PI*2/n;p.push([Math.cos(a)*r*sx,Math.sin(a)*r*sy])}return p}
 function spiralPoints(r0,r1,turns,phase=0,n=180){const p=[];for(let i=0;i<=n;i++){const t=i/n,a=phase+t*Math.PI*2*turns,r=r0+(r1-r0)*t;p.push([Math.cos(a)*r,Math.sin(a)*r])}return p}
+function wavePoints(length,amplitude,cycles,rotation=0,offset=0,n=150){
+  const p=[],c=Math.cos(rotation),s=Math.sin(rotation);
+  for(let i=0;i<=n;i++){const t=i/n,x=-length/2+t*length,y=Math.sin(t*Math.PI*2*cycles+offset)*amplitude;p.push([x*c-y*s,x*s+y*c])}
+  return p
+}
+function bezierPoints(p0,p1,p2,p3,n=100){
+  const p=[];for(let i=0;i<=n;i++){const t=i/n,u=1-t;p.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}
+  return p
+}
+function rosePoints(radius,petals,phase=0,n=220){
+  const p=[];for(let i=0;i<=n;i++){const a=i*Math.PI*2/n,r=radius*Math.cos(petals*a+phase);p.push([Math.cos(a)*r,Math.sin(a)*r])}
+  return p
+}
+function lissajousPoints(ax,ay,a,b,delta,n=220){
+  const p=[];for(let i=0;i<=n;i++){const t=i*Math.PI*2/n;p.push([ax*Math.sin(a*t+delta),ay*Math.sin(b*t)])}return p
+}
 function addPath(g,pts,o={}){const el=ns("path",{d:pathD(pts),fill:"none",stroke:o.stroke||"url(#goldGradient)","stroke-width":o.width||2,opacity:o.opacity??1,"stroke-linecap":"round","stroke-linejoin":"round"});g.appendChild(el);return el}
 function addCircle(g,x,y,r,o={}){const el=ns("circle",{cx:x,cy:y,r,fill:o.fill||"none",stroke:o.stroke||"url(#goldGradient)","stroke-width":o.width||2,opacity:o.opacity??1});g.appendChild(el);return el}
 function modeConfig(){return{
@@ -45,47 +61,32 @@ function modeConfig(){return{
 
 function buildModel(a,level=1){
   const phase=(a.values[0]-1)*Math.PI*2/27,exit=(a.values.at(-1)-1)*Math.PI*2/27;
-  const model={primary:[],secondary:[],orbits:[],nodes:[],core:44+level*3};
-  const R=245, arch=a.arch;
-
-  if(arch===0){
-    model.primary.push(polygon(a.sides,R,phase*.1),polygon(a.sides,R*.72,-phase*.08),polygon(3,R*.82,-Math.PI/2),polygon(3,R*.82,Math.PI/2));
-  }else if(arch===1){
-    model.primary.push(polygon(6,R,phase*.08),polygon(6,R*.78,phase*.08+Math.PI/6));
-    for(let i=0;i<a.axes;i++){const ang=i*Math.PI*2/a.axes;model.primary.push([[0,0],[Math.cos(ang)*R,Math.sin(ang)*R]])}
-  }else if(arch===2){
-    for(let k=0;k<3;k++)model.primary.push(polygon(a.sides,R-k*52,phase*.08+k*.18));
-    model.primary.push(polygon(4,R*.75,Math.PI/4+exit*.05));
-  }else if(arch===3){
-    model.primary.push(polygon(a.sides,R,phase*.06));
-    for(let i=0;i<a.axes;i++){const ang=i*Math.PI*2/a.axes;model.primary.push([[Math.cos(ang)*70,Math.sin(ang)*70],[Math.cos(ang)*R,Math.sin(ang)*R]])}
-    model.secondary.push(circlePoints(R*.68,130,phase*.1,1,.56));
-  }else if(arch===4){
-    model.primary.push(polygon(4,R,Math.PI/4+phase*.04),polygon(3,R*.8,-Math.PI/2),polygon(3,R*.8,Math.PI/2));
-    model.secondary.push(polygon(8,R*.64,exit*.05));
-  }else if(arch===5){
-    model.primary.push(spiralPoints(25,R,2.2+a.frequency*.12,phase,190),spiralPoints(25,R,2.2+a.frequency*.12,phase+Math.PI,190));
-    model.secondary.push(polygon(a.sides,R*.7,exit*.06));
-  }else if(arch===6){
-    for(let k=0;k<a.rings+2;k++)model.orbits.push(circlePoints(80+k*38,120,phase*.03+k*.08,1,.72+(k%2)*.18));
-    model.primary.push(polygon(a.sides,R,phase*.08),polygon(a.sides,R*.55,-phase*.08));
-  }else if(arch===7){
-    model.primary.push(polygon(3,R*.86,-Math.PI/2),polygon(3,R*.86,Math.PI/2),polygon(4,R*.72,Math.PI/4));
-    model.secondary.push(circlePoints(R*.82,120,phase*.04,1,.72));
-  }else if(arch===8){
-    model.primary.push(polygon(8,R,phase*.06));
-    for(let i=0;i<16;i++){const ang=i*Math.PI*2/16;model.primary.push([[Math.cos(ang)*80,Math.sin(ang)*80],[Math.cos(ang)*R,Math.sin(ang)*R]])}
-  }else{
-    model.primary.push(polygon(a.sides,R,phase*.05),polygon(a.sides,R*.72,phase*.05+Math.PI/a.sides),polygon(a.sides,R*.44,-phase*.05));
-    for(let i=0;i<a.axes;i++){const ang=i*Math.PI*2/a.axes;model.secondary.push([[Math.cos(ang)*R*.44,Math.sin(ang)*R*.44],[Math.cos(ang)*R,Math.sin(ang)*R]])}
-  }
-
+  const model={primary:[],secondary:[],orbits:[],waves:[],spirals:[],curves:[],radials:[],nodes:[],core:44+level*3};
+  const R=245, arch=a.arch, complexity=state.complexity/100;
+  if(arch===0){model.primary.push(polygon(a.sides,R,phase*.1),polygon(a.sides,R*.72,-phase*.08),polygon(3,R*.82,-Math.PI/2),polygon(3,R*.82,Math.PI/2))}
+  else if(arch===1){model.primary.push(polygon(6,R,phase*.08),polygon(6,R*.78,phase*.08+Math.PI/6));for(let i=0;i<a.axes;i++){const ang=i*Math.PI*2/a.axes;model.primary.push([[0,0],[Math.cos(ang)*R,Math.sin(ang)*R]])}}
+  else if(arch===2){for(let k=0;k<3;k++)model.primary.push(polygon(a.sides,R-k*52,phase*.08+k*.18));model.primary.push(polygon(4,R*.75,Math.PI/4+exit*.05))}
+  else if(arch===3){model.primary.push(polygon(a.sides,R,phase*.06));for(let i=0;i<a.axes;i++){const ang=i*Math.PI*2/a.axes;model.primary.push([[Math.cos(ang)*70,Math.sin(ang)*70],[Math.cos(ang)*R,Math.sin(ang)*R]])}model.secondary.push(circlePoints(R*.68,130,phase*.1,1,.56))}
+  else if(arch===4){model.primary.push(polygon(4,R,Math.PI/4+phase*.04),polygon(3,R*.8,-Math.PI/2),polygon(3,R*.8,Math.PI/2));model.secondary.push(polygon(8,R*.64,exit*.05))}
+  else if(arch===5){model.primary.push(spiralPoints(25,R,2.2+a.frequency*.12,phase,190),spiralPoints(25,R,2.2+a.frequency*.12,phase+Math.PI,190));model.secondary.push(polygon(a.sides,R*.7,exit*.06))}
+  else if(arch===6){for(let k=0;k<a.rings+2;k++)model.orbits.push(circlePoints(80+k*38,120,phase*.03+k*.08,1,.72+(k%2)*.18));model.primary.push(polygon(a.sides,R,phase*.08),polygon(a.sides,R*.55,-phase*.08))}
+  else if(arch===7){model.primary.push(polygon(3,R*.86,-Math.PI/2),polygon(3,R*.86,Math.PI/2),polygon(4,R*.72,Math.PI/4));model.secondary.push(circlePoints(R*.82,120,phase*.04,1,.72))}
+  else if(arch===8){model.primary.push(polygon(8,R,phase*.06));for(let i=0;i<16;i++){const ang=i*Math.PI*2/16;model.primary.push([[Math.cos(ang)*80,Math.sin(ang)*80],[Math.cos(ang)*R,Math.sin(ang)*R]])}}
+  else{model.primary.push(polygon(a.sides,R,phase*.05),polygon(a.sides,R*.72,phase*.05+Math.PI/a.sides),polygon(a.sides,R*.44,-phase*.05));for(let i=0;i<a.axes;i++){const ang=i*Math.PI*2/a.axes;model.secondary.push([[Math.cos(ang)*R*.44,Math.sin(ang)*R*.44],[Math.cos(ang)*R,Math.sin(ang)*R]])}}
   for(let r=0;r<a.rings;r++)model.orbits.push(circlePoints(90+r*48,130,phase*.04+r*.12,1,.82+(r%2)*.12));
-  const nodeCount=Math.min(18,a.letters.length+a.unique.length);
-  for(let i=0;i<nodeCount;i++){const v=a.values[i%a.values.length],ang=(v-1)*Math.PI*2/27+i*.21,rad=105+(i%4)*42;model.nodes.push([Math.cos(ang)*rad,Math.sin(ang)*rad,2.4+(v%4)])}
+  const radialCount=4+(a.unique.length%7);
+  for(let i=0;i<radialCount;i++){const ang=phase+i*Math.PI*2/radialCount,r1=48+(a.values[i%a.values.length]%4)*12,r2=210+(a.values[(i+1)%a.values.length]%5)*11;model.radials.push([[Math.cos(ang)*r1,Math.sin(ang)*r1],[Math.cos(ang)*r2,Math.sin(ang)*r2]])}
+  const curveCount=2+Math.floor(complexity*4);
+  for(let i=0;i<curveCount;i++){const v=a.values[i%a.values.length],ang=phase+i*Math.PI*2/curveCount,p0=[Math.cos(ang)*72,Math.sin(ang)*72],p3=[Math.cos(ang+.7+(v%5)*.08)*230,Math.sin(ang+.7+(v%5)*.08)*230],p1=[Math.cos(ang+.18)*150,Math.sin(ang+.18)*150],p2=[Math.cos(ang+.52)*195,Math.sin(ang+.52)*195];model.curves.push(bezierPoints(p0,p1,p2,p3,90))}
+  const waveCount=1+Math.floor(complexity*3);
+  for(let i=0;i<waveCount;i++){const v=a.values[(i+2)%a.values.length],rot=phase+i*Math.PI/waveCount;model.waves.push(wavePoints(320+(v%5)*22,12+(v%7)*3,2+(v%4),rot,exit+i*.7,150))}
+  const spiralCount=1+(a.repeats>0?1:0)+(a.frequency>6?1:0);
+  for(let i=0;i<spiralCount;i++){const turns=1.25+(a.values[i%a.values.length]%8)*.16;model.spirals.push(spiralPoints(18+i*8,105+i*55,turns,phase+i*Math.PI,145))}
+  if(state.complexity>70){model.curves.push(rosePoints(145,3+(a.frequency%5),phase*.2,220));model.waves.push(lissajousPoints(170,130,2+(a.vowels%3),3+(a.unique.length%4),phase*.3,220))}
+  const nodeCount=Math.min(24,a.letters.length+a.unique.length+Math.floor(complexity*6));
+  for(let i=0;i<nodeCount;i++){const v=a.values[i%a.values.length],ang=(v-1)*Math.PI*2/27+i*.21,rad=96+(i%5)*36;model.nodes.push([Math.cos(ang)*rad,Math.sin(ang)*rad,2.2+(v%5)])}
   return model
 }
-
 function drawSignature(svg,a,level=1){
   const ids=["gridLayer","orbitLayer","secondaryLayer","primaryGlow","primaryLayer","nodeLayer","coreLayer"];
   const local={};ids.forEach(id=>{local[id]=svg.querySelector(`#${id}`);if(local[id])clear(local[id])});
@@ -96,6 +97,10 @@ function drawSignature(svg,a,level=1){
   for(let k=1;k<=4;k++)addCircle(local.gridLayer,0,0,70+k*55,{width:.45,opacity:.06});
 
   model.orbits.forEach(p=>addPath(local.orbitLayer,p,{width:.75,opacity:opacity*.62,stroke:cfg.secondary}));
+  model.radials.forEach(p=>addPath(local.secondaryLayer,p,{width:.85,opacity:opacity*.74,stroke:cfg.secondary}));
+  model.curves.forEach(p=>addPath(local.secondaryLayer,p,{width:1.05,opacity:opacity*.72,stroke:cfg.secondary}));
+  model.waves.forEach((p,i)=>addPath(local.secondaryLayer,p,{width:.8,opacity:opacity*(i%2?.55:.72),stroke:i%2?"#00d9ff":cfg.secondary}));
+  model.spirals.forEach((p,i)=>addPath(local.orbitLayer,p,{width:1.0,opacity:opacity*.78,stroke:i%2?"#00d9ff":cfg.secondary}));
   model.secondary.forEach(p=>addPath(local.secondaryLayer,p,{width:1.2,opacity:opacity*.8,stroke:cfg.secondary}));
   model.primary.forEach(p=>{
     addPath(local.primaryGlow,p,{width:7.5,opacity:.64,stroke:cfg.main});
@@ -124,7 +129,10 @@ function readingFor(a){
     ["Triángulo ascendente",`Impulsa crecimiento, propósito y capacidad de dejar huella.`,"△"],
     ["Triángulo descendente",`Representa intuición, comprensión y aprendizaje interior.`,"▽"],
     [`${a.axes} líneas principales`,`Tus decisiones se organizan en múltiples direcciones coherentes.`,"✹"],
-    [`${a.rings} órbitas activas`,`Experiencias, vínculos y ciclos integrados en una sola firma.`,"⊙"]
+    [`${a.rings} órbitas activas`,`Experiencias, vínculos y ciclos integrados en una sola firma.`,"⊙"],
+    ["Ondas de resonancia",`La proporción entre vocales y consonantes modula comunicación, influencia e impacto.`,"≋"],
+    ["Espiral evolutiva",`La frecuencia ${a.frequency} introduce transformación, memoria y crecimiento.`,"◎"],
+    ["Curvas de enlace",`Las transiciones suaves conectan sectores del patrón sin romper su continuidad.`,"⌒"]
   ]
 }
 function update(save=true){
@@ -169,11 +177,11 @@ function buildOptical(a){
   labels.forEach((label,i)=>{const step=document.createElement("div");step.className="optical-step";const svg=miniSvgFor(a.normalized);if(i===1){svg.querySelector("#primaryLayer")?.setAttribute("opacity",".12");svg.querySelector("#primaryGlow")?.setAttribute("opacity",".05")}if(i===2){svg.querySelector("#orbitLayer")?.setAttribute("opacity",".08");svg.querySelector("#coreLayer")?.setAttribute("opacity",".15")}if(i===3){svg.innerHTML=`<rect x="-300" y="-220" width="600" height="440" rx="25" fill="#08111e" stroke="#b47a32"/><text x="0" y="-30" text-anchor="middle" fill="#f6c65b" font-size="58" font-family="Georgia">${a.normalized}</text><text x="0" y="55" text-anchor="middle" fill="#7f8ba0" font-size="28" font-family="monospace">${a.sequence}</text>`}step.appendChild(svg);step.insertAdjacentHTML("beforeend",`<small>${label}</small>`);container.appendChild(step);if(i<labels.length-1){const arrow=document.createElement("div");arrow.className="optical-arrow";arrow.textContent="→";container.appendChild(arrow)}})
 }
 function saveHistory(a){
-  const h=JSON.parse(localStorage.getItem("firmas-v15")||"[]"),code=`LG-${String(a.letters.length).padStart(2,"0")}-${String(a.sum).padStart(3,"0")}-${a.frequency}-${a.vowels}-${a.unique.length}`;
-  localStorage.setItem("firmas-v15",JSON.stringify([{name:a.normalized,code},...h.filter(x=>x.name!==a.normalized)].slice(0,12)));renderHistory()
+  const h=JSON.parse(localStorage.getItem("firmas-v16")||"[]"),code=`LG-${String(a.letters.length).padStart(2,"0")}-${String(a.sum).padStart(3,"0")}-${a.frequency}-${a.vowels}-${a.unique.length}`;
+  localStorage.setItem("firmas-v16",JSON.stringify([{name:a.normalized,code},...h.filter(x=>x.name!==a.normalized)].slice(0,12)));renderHistory()
 }
 function renderHistory(){
-  const h=JSON.parse(localStorage.getItem("firmas-v15")||"[]"),grid=document.getElementById("history");grid.innerHTML=h.map(x=>`<div class="history-item" data-name="${x.name}"><strong>${x.name}</strong><small>${x.code}</small></div>`).join("");
+  const h=JSON.parse(localStorage.getItem("firmas-v16")||"[]"),grid=document.getElementById("history");grid.innerHTML=h.map(x=>`<div class="history-item" data-name="${x.name}"><strong>${x.name}</strong><small>${x.code}</small></div>`).join("");
   grid.querySelectorAll(".history-item").forEach(el=>el.addEventListener("click",()=>{state.name=el.dataset.name;document.getElementById("nameInput").value=state.name;update(false)}))
 }
 function serializeSvg(){const svg=document.getElementById("signatureSvg").cloneNode(true);svg.setAttribute("xmlns","http://www.w3.org/2000/svg");return new XMLSerializer().serializeToString(svg)}
@@ -182,7 +190,7 @@ document.getElementById("nameInput").addEventListener("keydown",e=>{if(e.key==="
 document.getElementById("modeGroup").addEventListener("click",e=>{const b=e.target.closest("button[data-mode]");if(!b)return;document.querySelectorAll("#modeGroup button").forEach(x=>x.classList.remove("active"));b.classList.add("active");state.mode=b.dataset.mode;update(false)});
 document.getElementById("complexityRange").addEventListener("input",e=>{state.complexity=Number(e.target.value);document.getElementById("complexityValue").textContent=`${state.complexity}%`;update(false)});
 document.getElementById("refreshExamples").addEventListener("click",()=>{state.exampleOffset=(state.exampleOffset+1)%5;buildExamples()});
-document.getElementById("clearHistory").addEventListener("click",()=>{localStorage.removeItem("firmas-v15");renderHistory()});
+document.getElementById("clearHistory").addEventListener("click",()=>{localStorage.removeItem("firmas-v16");renderHistory()});
 document.getElementById("copyCode").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(document.getElementById("signatureCode").textContent);document.getElementById("copyCode").textContent="Copiado";setTimeout(()=>document.getElementById("copyCode").textContent="Copiar código",1200)}catch{}});
 document.getElementById("downloadSvg").addEventListener("click",()=>{const blob=new Blob([serializeSvg()],{type:"image/svg+xml"}),a=document.createElement("a");a.download=`${normalizeName(state.name)}-firma-geometrica.svg`;a.href=URL.createObjectURL(blob);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)});
 document.getElementById("downloadPng").addEventListener("click",()=>{const img=new Image(),url=URL.createObjectURL(new Blob([serializeSvg()],{type:"image/svg+xml"}));img.onload=()=>{const c=document.createElement("canvas");c.width=4096;c.height=4096;const ctx=c.getContext("2d");ctx.fillStyle="#030712";ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);const a=document.createElement("a");a.download=`${normalizeName(state.name)}-firma-4K.png`;a.href=c.toDataURL("image/png");a.click()};img.src=url});
