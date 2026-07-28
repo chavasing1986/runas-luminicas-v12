@@ -4,30 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#030712">
-  <meta name="description" content="Runas Lumínicas: una runa única y reproducible para cada nombre.">
-  <title>Runas Lumínicas</title>
+  <meta name="description" content="Runas Lumínicas V13: una runa única, reproducible y exportable para cada nombre.">
+  <title>RUNAS LUMÍNICAS · V13</title>
+  <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <div class="stars"></div>
-
-  <main class="app">
+  <div class="cosmos"></div>
+  <main class="app-shell">
     <header class="topbar">
-      <div>
-        <span class="eyebrow">Sistema de identidad arcánica</span>
-        <h1>RUNAS LUMÍNICAS</h1>
-        <p>Una runa irrepetible y reproducible para cada nombre.</p>
+      <div class="brand">
+        <div class="seal-mini" aria-hidden="true">✦</div>
+        <div>
+          <span class="eyebrow">Sistema universal de identidad mediante patrones</span>
+          <h1>RUNAS LUMÍNICAS</h1>
+          <p>V13 · Motor rúnico nominal · SVG generativo · Exportación 4K</p>
+        </div>
       </div>
-      <span class="status">Motor activo</span>
+      <div class="top-actions">
+        <button id="installBtn" class="ghost hidden">Instalar app</button>
+        <span class="status">Sistema activo</span>
+      </div>
     </header>
 
     <section class="layout">
       <aside class="panel controls">
-        <h2>Generador</h2>
+        <div class="panel-title">
+          <span>Generador</span>
+          <small>Identidad nominal</small>
+        </div>
 
         <label for="nameInput">Nombre o palabra</label>
-        <input id="nameInput" value="SALVADOR" maxlength="36" autocomplete="off">
-
+        <input id="nameInput" value="SALVADOR" maxlength="48" autocomplete="off">
         <button id="generateBtn" class="primary">Generar runa</button>
 
         <div class="section">
@@ -41,17 +49,31 @@
         </div>
 
         <div class="section">
-          <h3>Intensidad</h3>
-          <input id="intensityRange" type="range" min="40" max="140" value="92">
-          <div class="range-row"><span>Suave</span><strong id="intensityValue">92%</strong><span>Radiante</span></div>
+          <h3>Simetría</h3>
+          <div class="segmented three" id="symmetryGroup">
+            <button data-symmetry="bilateral" class="active">Bilateral</button>
+            <button data-symmetry="radial">Radial</button>
+            <button data-symmetry="hybrid">Híbrida</button>
+          </div>
         </div>
 
         <div class="section">
+          <h3>Intensidad lumínica</h3>
+          <input id="intensityRange" type="range" min="35" max="150" value="94">
+          <div class="range-row"><span>Sutil</span><strong id="intensityValue">94%</strong><span>Radiante</span></div>
+        </div>
+
+        <div class="section">
+          <h3>Densidad interna</h3>
+          <input id="densityRange" type="range" min="0" max="100" value="58">
+          <div class="range-row"><span>Limpia</span><strong id="densityValue">58%</strong><span>Compleja</span></div>
+        </div>
+
+        <div class="section signature-card">
           <h3>Firma actual</h3>
-          <div class="signature-card">
-            <span id="signatureCode">LG-08-096-6-3-7</span>
-            <small id="signatureSeed">Semilla: 00000000</small>
-          </div>
+          <strong id="signatureCode">LG-08-096-6-3-7</strong>
+          <small id="signatureSeed">Semilla: 00000000</small>
+          <small id="signatureMode">Ceremonial · Bilateral</small>
         </div>
       </aside>
 
@@ -62,69 +84,94 @@
           <small id="runeId">SR-66</small>
         </div>
 
-        <svg id="runeSvg" viewBox="-400 -520 800 1040" role="img" aria-label="Runa personalizada generada">
-          <defs>
-            <filter id="glowStrong" x="-70%" y="-70%" width="240%" height="240%">
-              <feGaussianBlur stdDeviation="8" result="b1"/>
-              <feGaussianBlur stdDeviation="18" result="b2"/>
-              <feMerge>
-                <feMergeNode in="b2"/>
-                <feMergeNode in="b1"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <filter id="glowSoft" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur stdDeviation="3" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <radialGradient id="coreGradient">
-              <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".15" stop-color="#d9fbff"/>
-              <stop offset=".42" stop-color="#00e5ff" stop-opacity=".78"/>
-              <stop offset="1" stop-color="#00e5ff" stop-opacity="0"/>
-            </radialGradient>
-            <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#8f5a20"/>
-              <stop offset=".22" stop-color="#f6c65b"/>
-              <stop offset=".5" stop-color="#fff1b5"/>
-              <stop offset=".68" stop-color="#f6c65b"/>
-              <stop offset="1" stop-color="#7b4318"/>
-            </linearGradient>
-          </defs>
+        <div class="rune-frame">
+          <svg id="runeSvg" viewBox="-420 -540 840 1080" role="img" aria-label="Runa personalizada generada">
+            <defs>
+              <filter id="glowStrong" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="9" result="b1"/>
+                <feGaussianBlur stdDeviation="22" result="b2"/>
+                <feMerge>
+                  <feMergeNode in="b2"/>
+                  <feMergeNode in="b1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="glowSoft" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="3.5" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="glassBlur" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="1.2"/>
+              </filter>
+              <radialGradient id="coreGradient">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset=".12" stop-color="#e8fdff"/>
+                <stop offset=".36" stop-color="#00e5ff" stop-opacity=".88"/>
+                <stop offset="1" stop-color="#00e5ff" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6f3e14"/>
+                <stop offset=".18" stop-color="#c78228"/>
+                <stop offset=".38" stop-color="#f6c65b"/>
+                <stop offset=".5" stop-color="#fff1b5"/>
+                <stop offset=".64" stop-color="#f6c65b"/>
+                <stop offset=".84" stop-color="#a95d1c"/>
+                <stop offset="1" stop-color="#5d3110"/>
+              </linearGradient>
+              <linearGradient id="cyanGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#76f3ff"/>
+                <stop offset=".5" stop-color="#00e5ff"/>
+                <stop offset="1" stop-color="#006d7d"/>
+              </linearGradient>
+            </defs>
 
-          <g id="backgroundGeometry" opacity=".18"></g>
-          <g id="microLayer" opacity=".32"></g>
-          <g id="secondaryLayer" opacity=".55"></g>
-          <g id="primaryGlow" filter="url(#glowStrong)" opacity=".72"></g>
-          <g id="primaryLayer" filter="url(#glowSoft)"></g>
-          <g id="coreLayer"></g>
-        </svg>
+            <g id="backgroundGeometry"></g>
+            <g id="echoLayer"></g>
+            <g id="microLayer"></g>
+            <g id="secondaryLayer"></g>
+            <g id="primaryGlow" filter="url(#glowStrong)"></g>
+            <g id="primaryLayer" filter="url(#glowSoft)"></g>
+            <g id="nodeLayer"></g>
+            <g id="coreLayer"></g>
+          </svg>
+        </div>
 
-        <div class="essence" id="essenceText">Estructura · Concentración · Resonancia · Manifestación</div>
+        <div class="essence">
+          <span>Esencia</span>
+          <strong id="essenceText">Estructura · Concentración · Resonancia · Manifestación</strong>
+        </div>
 
         <div class="actions">
           <button id="downloadSvg">Descargar SVG</button>
-          <button id="downloadPng">Descargar PNG</button>
+          <button id="downloadPng">PNG 4K</button>
+          <button id="downloadJson">JSON</button>
           <button id="copyCode">Copiar código</button>
         </div>
       </section>
 
       <aside class="panel reading">
-        <h2>Significado</h2>
-        <p id="meaningText"></p>
+        <div class="panel-title">
+          <span>Lectura activa</span>
+          <small>Interpretación del nombre</small>
+        </div>
 
-        <div class="section">
+        <div class="reading-block">
+          <h3>Significado</h3>
+          <p id="meaningText"></p>
+        </div>
+
+        <div class="reading-block">
           <h3>ADN geométrico</h3>
           <div id="metrics" class="metrics"></div>
         </div>
 
-        <div class="section">
+        <div class="reading-block">
           <h3>Secuencia nominal</h3>
           <code id="sequenceText"></code>
           <small id="rhythmText"></small>
         </div>
 
-        <div class="section">
+        <div class="reading-block">
           <h3>Mensaje</h3>
           <p id="messageText"></p>
         </div>
@@ -136,17 +183,18 @@
     <section class="panel library">
       <div class="library-head">
         <div>
-          <span class="eyebrow">Biblioteca</span>
+          <span class="eyebrow">Archivo personal</span>
           <h2>Runas recientes</h2>
         </div>
-        <button id="clearHistory">Limpiar</button>
+        <button id="clearHistory" class="ghost">Limpiar historial</button>
       </div>
       <div id="history" class="history"></div>
     </section>
 
-    <footer>El nombre no se escribe. Se construye. La geometría se convierte en identidad.</footer>
+    <footer>
+      El nombre no se escribe. Se construye. La geometría se convierte en identidad.
+    </footer>
   </main>
-
   <script src="./app.js"></script>
 </body>
 </html>

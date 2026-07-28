@@ -1,31 +1,40 @@
-# RUNAS LUMÍNICAS V12 — DEFINITIVA
+# RUNAS LUMÍNICAS V13 — PROFESIONAL
 
-Versión estática profesional sin compilación ni dependencias.
+Versión estática lista para GitHub y Netlify.
 
-## Ventajas
-- No usa npm.
-- No usa React.
-- No requiere build.
-- Netlify publica directamente.
-- GitHub conserva una estructura simple.
-- Funciona con HTML, CSS, JavaScript y SVG.
-- Cada nombre genera una runa única y reproducible.
-- Exporta SVG y PNG 2K.
+## No requiere compilación
 
-## Archivos en la raíz
-- index.html
-- styles.css
-- app.js
-- netlify.toml
-- README.md
+No usa npm, React ni Vite. Netlify publica directamente la raíz del repositorio.
 
-## Publicar con GitHub + Netlify
-1. Crea o limpia un repositorio.
-2. Sube estos cinco archivos a la raíz.
-3. Conecta el repositorio con Netlify.
-4. En Netlify usa:
-   - Build command: dejar vacío
-   - Publish directory: `.`
-5. Publica.
+## Archivos
 
-Cada cambio en GitHub actualizará Netlify automáticamente.
+- `index.html`
+- `styles.css`
+- `app.js`
+- `manifest.webmanifest`
+- `sw.js`
+- `netlify.toml`
+- `README.md`
+
+## Funciones
+
+- Una runa única y reproducible por nombre
+- Modos ceremonial, técnico, minimalista y joviano
+- Simetría bilateral, radial e híbrida
+- Intensidad y densidad ajustables
+- ADN geométrico
+- Historial local
+- Exportación SVG
+- Exportación PNG 4K
+- Exportación JSON
+- PWA instalable
+- Funcionamiento offline después de la primera carga
+
+## Netlify
+
+- Build command: dejar vacío
+- Publish directory: `.`
+
+## Actualización automática
+
+Cada commit en GitHub genera una nueva publicación en Netlify.
