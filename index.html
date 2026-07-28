@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#030712">
+  <meta name="description" content="Runas Lumínicas: una runa única y reproducible para cada nombre.">
+  <title>Runas Lumínicas</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="stars"></div>
+
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">Sistema de identidad arcánica</span>
+        <h1>RUNAS LUMÍNICAS</h1>
+        <p>Una runa irrepetible y reproducible para cada nombre.</p>
+      </div>
+      <span class="status">Motor activo</span>
+    </header>
+
+    <section class="layout">
+      <aside class="panel controls">
+        <h2>Generador</h2>
+
+        <label for="nameInput">Nombre o palabra</label>
+        <input id="nameInput" value="SALVADOR" maxlength="36" autocomplete="off">
+
+        <button id="generateBtn" class="primary">Generar runa</button>
+
+        <div class="section">
+          <h3>Modo visual</h3>
+          <div class="segmented" id="modeGroup">
+            <button data-mode="ceremonial" class="active">Ceremonial</button>
+            <button data-mode="technical">Técnico</button>
+            <button data-mode="minimal">Minimalista</button>
+            <button data-mode="jovian">Joviano</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Intensidad</h3>
+          <input id="intensityRange" type="range" min="40" max="140" value="92">
+          <div class="range-row"><span>Suave</span><strong id="intensityValue">92%</strong><span>Radiante</span></div>
+        </div>
+
+        <div class="section">
+          <h3>Firma actual</h3>
+          <div class="signature-card">
+            <span id="signatureCode">LG-08-096-6-3-7</span>
+            <small id="signatureSeed">Semilla: 00000000</small>
+          </div>
+        </div>
+      </aside>
+
+      <section class="stage panel">
+        <div class="stage-heading">
+          <span>Runa generada</span>
+          <strong id="displayName">SALVADOR</strong>
+          <small id="runeId">SR-66</small>
+        </div>
+
+        <svg id="runeSvg" viewBox="-400 -520 800 1040" role="img" aria-label="Runa personalizada generada">
+          <defs>
+            <filter id="glowStrong" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="8" result="b1"/>
+              <feGaussianBlur stdDeviation="18" result="b2"/>
+              <feMerge>
+                <feMergeNode in="b2"/>
+                <feMergeNode in="b1"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <filter id="glowSoft" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="coreGradient">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset=".15" stop-color="#d9fbff"/>
+              <stop offset=".42" stop-color="#00e5ff" stop-opacity=".78"/>
+              <stop offset="1" stop-color="#00e5ff" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8f5a20"/>
+              <stop offset=".22" stop-color="#f6c65b"/>
+              <stop offset=".5" stop-color="#fff1b5"/>
+              <stop offset=".68" stop-color="#f6c65b"/>
+              <stop offset="1" stop-color="#7b4318"/>
+            </linearGradient>
+          </defs>
+
+          <g id="backgroundGeometry" opacity=".18"></g>
+          <g id="microLayer" opacity=".32"></g>
+          <g id="secondaryLayer" opacity=".55"></g>
+          <g id="primaryGlow" filter="url(#glowStrong)" opacity=".72"></g>
+          <g id="primaryLayer" filter="url(#glowSoft)"></g>
+          <g id="coreLayer"></g>
+        </svg>
+
+        <div class="essence" id="essenceText">Estructura · Concentración · Resonancia · Manifestación</div>
+
+        <div class="actions">
+          <button id="downloadSvg">Descargar SVG</button>
+          <button id="downloadPng">Descargar PNG</button>
+          <button id="copyCode">Copiar código</button>
+        </div>
+      </section>
+
+      <aside class="panel reading">
+        <h2>Significado</h2>
+        <p id="meaningText"></p>
+
+        <div class="section">
+          <h3>ADN geométrico</h3>
+          <div id="metrics" class="metrics"></div>
+        </div>
+
+        <div class="section">
+          <h3>Secuencia nominal</h3>
+          <code id="sequenceText"></code>
+          <small id="rhythmText"></small>
+        </div>
+
+        <div class="section">
+          <h3>Mensaje</h3>
+          <p id="messageText"></p>
+        </div>
+
+        <blockquote id="mantraText"></blockquote>
+      </aside>
+    </section>
+
+    <section class="panel library">
+      <div class="library-head">
+        <div>
+          <span class="eyebrow">Biblioteca</span>
+          <h2>Runas recientes</h2>
+        </div>
+        <button id="clearHistory">Limpiar</button>
+      </div>
+      <div id="history" class="history"></div>
+    </section>
+
+    <footer>El nombre no se escribe. Se construye. La geometría se convierte en identidad.</footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
