@@ -1,340 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#030712">
-<title>Lenguaje Geométrico Universal V20</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lenguaje Geométrico Universal V30</title>
 <style>
-:root{
-  --bg:#030712;--panel:#07101f;--gold:#f6c65b;--gold2:#fff1b5;--cyan:#00d9ff;
-  --text:#e8edf5;--muted:#74849c;--border:rgba(246,198,91,.18);--ok:#8ff0b1
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-button,input{font:inherit}
-body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 20% 5%,rgba(0,217,255,.06),transparent 28%),
-    radial-gradient(circle at 80% 10%,rgba(246,198,91,.07),transparent 30%),
-    linear-gradient(#030712,#050a16);
-}
-body:after{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;
-  background-image:radial-gradient(circle,#fff 0 1px,transparent 1.2px);
-  background-size:104px 104px;
-}
-.app{position:relative;max-width:1880px;margin:auto;padding:14px}
-.panel{
-  background:linear-gradient(180deg,rgba(9,18,33,.96),rgba(4,10,22,.98));
-  border:1px solid var(--border);border-radius:20px;
-  box-shadow:0 26px 80px rgba(0,0,0,.36),inset 0 1px rgba(255,255,255,.02)
-}
-header{padding:18px 22px;display:flex;justify-content:space-between;gap:20px;align-items:end}
-.eyebrow{color:#67e8f9;font-size:10px;letter-spacing:.23em;text-transform:uppercase;font-weight:700}
-h1{margin:6px 0 0;color:#e4a64e;font:clamp(24px,3vw,39px) Georgia,serif;letter-spacing:.12em}
-h2{margin:5px 0 0;color:#fff0b8;font:20px Georgia,serif;letter-spacing:.08em}
-header p{margin:7px 0 0;color:#b6c1d0;font-size:13px}
-.status{color:var(--ok);border:1px solid rgba(0,230,118,.22);border-radius:999px;padding:8px 12px;font-size:10px;letter-spacing:.13em;text-transform:uppercase}
-.grid{display:grid;grid-template-columns:330px minmax(680px,1fr) 370px;gap:14px;margin-top:14px}
-.side,.main{padding:17px}
-.title{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.title b{font:17px Georgia,serif;color:#fff0ad;letter-spacing:.08em}
-.title small{color:#64748b;text-transform:uppercase;letter-spacing:.12em;font-size:9px}
-label{display:block;margin:15px 0 7px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.13em}
-input[type=text]{width:100%;padding:12px;border:1px solid rgba(246,198,91,.28);border-radius:11px;background:#020617;color:#fff4c7;outline:none}
-input[type=text]:focus{border-color:rgba(246,198,91,.62);box-shadow:0 0 0 3px rgba(246,198,91,.06)}
-button{cursor:pointer;border:1px solid rgba(148,163,184,.15);background:rgba(15,23,42,.56);color:#a8b5c7;border-radius:10px;padding:10px;transition:.18s}
-button:hover{color:#fff0ad;border-color:rgba(246,198,91,.45);transform:translateY(-1px)}
-.primary{width:100%;margin-top:10px;background:linear-gradient(90deg,#6f3e07,#a66b0a);color:#fff3bd;border-color:#c88c1f;text-transform:uppercase;letter-spacing:.12em}
-.section{margin-top:15px;padding:13px;border:1px solid rgba(148,163,184,.09);border-radius:14px;background:rgba(2,6,23,.34)}
-.section h3{margin:0 0 10px;color:#fde68a;font-size:10px;text-transform:uppercase;letter-spacing:.16em}
-.segmented{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.segmented button.active{color:#fff0ad;background:rgba(246,198,91,.08);border-color:rgba(246,198,91,.5)}
-input[type=range]{width:100%;accent-color:var(--gold)}
-.range{display:flex;justify-content:space-between;color:#74849c;font-size:9px}.range strong{color:#fde68a}
-code{display:block;color:#fde68a;word-break:break-word;line-height:1.55}
-.signature-title{text-align:center}
-.signature-title span{color:#e4a64e;font:11px Georgia,serif;letter-spacing:.12em;text-transform:uppercase}
-.signature-title strong{display:block;margin-top:7px;color:#e9b968;font:clamp(21px,2.2vw,30px) Georgia,serif;letter-spacing:.14em}
-.signature-title small{display:block;margin-top:6px;color:#73839b;font-size:10px;letter-spacing:.1em}
-.stage{position:relative;margin-top:12px;min-height:700px;border:1px solid rgba(246,198,91,.08);border-radius:18px;background:
-radial-gradient(circle at 50% 48%,rgba(246,198,91,.07),transparent 35%),
-linear-gradient(#090807,#020202);overflow:hidden}
-.cord{position:absolute;left:5%;right:5%;top:38px;height:44px;border-radius:50%;border-top:22px solid #0c0a09}
-.bail{position:absolute;left:50%;top:58px;transform:translateX(-50%);width:46px;height:70px;border:6px solid #9f6326;border-radius:9px;background:linear-gradient(#d7a55b,#6a3c15);z-index:3}
-.pendant{position:absolute;left:50%;top:110px;transform:translateX(-50%);width:min(610px,85vw);height:min(610px,85vw);border:10px solid #9b642d;border-radius:50%;background:radial-gradient(circle,#0c131c,#020304 74%);box-shadow:0 0 38px rgba(246,198,91,.16),inset 0 0 32px rgba(246,198,91,.1)}
-svg{width:100%;height:100%;display:block}
-.actions{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:12px}
-.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-.metric{padding:10px;border:1px solid rgba(148,163,184,.09);border-radius:11px;background:rgba(15,23,42,.42)}
-.metric small,.metric strong{display:block}.metric small{color:#64748b;font-size:9px;text-transform:uppercase}.metric strong{margin-top:4px;color:#fff0ad}
-.item{display:grid;grid-template-columns:26px 1fr;gap:9px;margin-top:9px}
-.sym{width:26px;height:26px;border:1px solid rgba(246,198,91,.36);border-radius:50%;display:grid;place-items:center;color:#fde68a}
-.item b{display:block;color:#e5ad58;font-size:10px;text-transform:uppercase}.item small{color:#aab6c8}
-.check{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(148,163,184,.08)}
-.check span{color:#aab6c8;font-size:11px}.check b{color:var(--ok);font-size:11px}
-blockquote{margin:15px 0 0;padding:15px;border:1px solid rgba(0,217,255,.18);border-radius:14px;color:#ecfeff;background:rgba(0,217,255,.04);font:15px/1.6 Georgia,serif}
-.bottom{margin-top:14px;padding:17px}
-.finger{display:grid;grid-template-columns:1fr 1fr .7fr;gap:12px;margin-top:12px}
-.finger>div{padding:13px;border:1px solid rgba(148,163,184,.09);border-radius:12px;background:rgba(2,6,23,.34)}
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.compare-card{padding:12px;border:1px solid rgba(148,163,184,.1);border-radius:13px;background:rgba(2,6,23,.34)}
-.compare-card svg{aspect-ratio:1/1}
-.compare-card b,.compare-card small{display:block}.compare-card b{color:#fff0ad}.compare-card small{color:#64748b;margin-top:4px}
-.history{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}
-.history div{padding:11px;border:1px solid rgba(148,163,184,.1);border-radius:12px;background:rgba(2,6,23,.35);cursor:pointer}
-.history b,.history small{display:block}.history b{color:#fff0ad}.history small{color:#64748b}
-footer{text-align:center;color:#64748b;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:22px}
-@media(max-width:1380px){.grid{grid-template-columns:1fr}.finger,.compare{grid-template-columns:1fr}.history{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:700px){header{flex-direction:column;align-items:flex-start}.stage{min-height:490px}.pendant{top:90px;width:370px;height:370px;max-width:84vw;max-height:84vw}.history{grid-template-columns:1fr 1fr}.segmented{grid-template-columns:1fr}}
+body{margin:0;background:#060910;color:#eee;font-family:Inter,Arial,sans-serif}
+.app{display:grid;grid-template-columns:300px 1fr 300px;gap:18px;padding:18px;min-height:100vh;
+background:
+radial-gradient(circle at 50% 15%,rgba(0,180,255,.08),transparent 35%),
+radial-gradient(circle at 50% 50%,rgba(212,175,55,.06),transparent 45%),#060910;}
+.panel{background:rgba(12,18,30,.82);border:1px solid rgba(212,175,55,.35);border-radius:18px;padding:18px;backdrop-filter:blur(10px);box-shadow:0 0 40px rgba(0,0,0,.4)}
+h1{font:700 28px Georgia,serif;color:#d9ab4d;letter-spacing:.15em;text-align:center}
+h2{font:600 13px Arial;color:#d9ab4d;text-transform:uppercase;letter-spacing:.18em}
+small{color:#9ba9bf}
+.center{display:flex;flex-direction:column}
+.hero{flex:1;border:1px solid rgba(212,175,55,.2);border-radius:22px;background:radial-gradient(circle,#0d1625,#040608);display:flex;align-items:center;justify-content:center}
+svg{width:min(760px,90%);aspect-ratio:1}
+.actions{display:flex;gap:10px;justify-content:center;padding:16px}
+button{background:#7b5214;color:#fff3c4;border:1px solid #d4af37;border-radius:10px;padding:10px 16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.card{padding:12px;border:1px solid rgba(212,175,55,.15);border-radius:12px;background:#0b1321}
+input{width:100%;padding:10px;background:#07101d;border:1px solid #444;color:#fff;border-radius:8px}
+@media(max-width:1100px){.app{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="panel">
-  <div><span class="eyebrow">Civilización Joviana · Motor genético de crecimiento</span><h1>LENGUAJE GEOMÉTRICO UNIVERSAL V20</h1><p>Cada letra transforma toda la estructura construida anteriormente. No existen plantillas.</p></div>
-  <span class="status">Motor genético activo</span>
-</header>
-
-<section class="grid">
-<aside class="panel side">
-  <div class="title"><b>Generador de identidad</b><small>Gramática evolutiva</small></div>
-  <label>Nombre completo</label>
-  <input id="name" type="text" value="MARIA MAGDALENA VAZQUEZ">
-  <button id="generate" class="primary">Construir firma</button>
-
-  <div class="section"><h3>Modo visual</h3><div class="segmented" id="modes">
-    <button data-mode="jewelry" class="active">Joyería</button><button data-mode="ceremonial">Ceremonial</button>
-    <button data-mode="technical">Técnico</button><button data-mode="minimal">Minimal</button>
-  </div></div>
-
-  <div class="section"><h3>Ocupación del colgante</h3><input id="coverage" type="range" min="90" max="95" value="94"><div class="range"><span>90%</span><strong id="covVal">94%</strong><span>95%</span></div></div>
-  <div class="section"><h3>Profundidad generativa</h3><input id="complexity" type="range" min="45" max="100" value="82"><div class="range"><span>Clara</span><strong id="comVal">82%</strong><span>Compleja</span></div></div>
-  <div class="section"><h3>Grosor de fabricación</h3><input id="stroke" type="range" min=".7" max="2.0" step=".1" value="1.1"><div class="range"><span>Fino</span><strong id="strVal">1.1 mm</strong><span>Marcado</span></div></div>
-
-  <div class="section"><h3>Identidad técnica</h3><code id="code"></code><small id="seed"></small><small id="grammar"></small></div>
-</aside>
-
-<section class="panel main">
-  <div class="signature-title"><span>Firma geométrica personal</span><strong id="displayName"></strong><small id="traits"></small></div>
-  <div class="stage"><div class="cord"></div><div class="bail"></div><div class="pendant">
-    <svg id="svg" viewBox="-500 -500 1000 1000">
-      <defs>
-        <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b1"/><feGaussianBlur stdDeviation="18" result="b2"/><feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <radialGradient id="core"><stop offset="0" stop-color="#fff"/><stop offset=".13" stop-color="#dffcff"/><stop offset=".38" stop-color="#00d9ff"/><stop offset=".72" stop-color="#00577a" stop-opacity=".65"/><stop offset="1" stop-color="#001018" stop-opacity="0"/></radialGradient>
-        <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6f3d13"/><stop offset=".2" stop-color="#c47c2d"/><stop offset=".42" stop-color="#f6c65b"/><stop offset=".52" stop-color="#fff1b5"/><stop offset=".68" stop-color="#f6c65b"/><stop offset=".86" stop-color="#a25b1e"/><stop offset="1" stop-color="#56300f"/></linearGradient>
-      </defs>
-      <g id="guide"></g><g id="echoes"></g><g id="curves"></g><g id="waves"></g><g id="branches"></g>
-      <g id="glowLayer" filter="url(#glow)"></g><g id="primary" filter="url(#soft)"></g><g id="nodes"></g><g id="coreLayer"></g>
-    </svg>
-  </div></div>
-  <div class="actions"><button id="svgBtn">SVG fabricación</button><button id="pngBtn">PNG 4K</button><button id="jsonBtn">JSON técnico</button><button id="copyBtn">Copiar código</button></div>
-</section>
-
-<aside class="panel side">
-  <div class="title"><b>Lectura del crecimiento</b><small>ADN geométrico</small></div>
-  <div id="metrics" class="metrics"></div>
-  <div class="section"><h3>Instrucciones dominantes</h3><div id="reading"></div></div>
-  <div class="section"><h3>Evaluación de joyería</h3><div id="checks"></div></div>
-  <blockquote id="message"></blockquote>
-</aside>
-</section>
-
-<section class="panel bottom">
-  <span class="eyebrow">Prueba de reproducibilidad</span><h2>El nombre funciona como código fuente de la firma</h2>
-  <div class="finger"><div><h3>Secuencia nominal</h3><code id="sequence"></code></div><div><h3>Programa geométrico</h3><code id="program"></code></div><div><h3>Fabricación</h3><b id="manufacture"></b></div></div>
-</section>
-
-<section class="panel bottom">
-  <span class="eyebrow">Comparación directa</span><h2>Dos nombres deben producir topologías claramente diferentes</h2>
-  <div class="compare">
-    <div class="compare-card"><svg id="compareA" viewBox="-500 -500 1000 1000"></svg><b id="compareNameA"></b><small id="compareCodeA"></small></div>
-    <div class="compare-card"><svg id="compareB" viewBox="-500 -500 1000 1000"></svg><b id="compareNameB"></b><small id="compareCodeB"></small></div>
-  </div>
-</section>
-
-<section class="panel bottom"><div class="title"><b>Firmas recientes</b><button id="clear">Limpiar</button></div><div id="history" class="history"></div></section>
-<footer>La firma no se dibuja. La firma crece. Cada letra transforma todo lo anterior.</footer>
+<div class="panel">
+<h2>Lenguaje Geométrico</h2>
+<p><small>Motor Genético V30</small></p>
+<label>Nombre</label>
+<input value="MARIA MAGDALENA VAZQUEZ">
+<div class="grid">
+<div class="card"><b>ADN</b><br><small>Secuencia nominal</small></div>
+<div class="card"><b>Gramática</b><br><small>Instrucciones</small></div>
+<div class="card"><b>Frecuencia</b><br><small>Resonancia</small></div>
+<div class="card"><b>Semilla</b><br><small>Hash</small></div>
+</div>
 </div>
 
-<script>
-const ALPHABET="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ",VOWELS=new Set(["A","E","I","O","U"]);
-const TRAITS=["Visión","Lealtad","Protección","Sabiduría","Creación","Justicia","Intuición","Propósito","Equilibrio","Liderazgo","Claridad","Transformación","Disciplina","Conexión"];
-const COMMAND_NAMES=["Núcleo","Bifurcación","Curvatura","Rotación","Órbita","Puente","Eco","Cierre"];
-let S={name:"MARIA MAGDALENA VAZQUEZ",mode:"jewelry",coverage:94,complexity:82,stroke:1.1};
+<div class="panel center">
+<h1>FIRMA GEOMÉTRICA PERSONAL</h1>
+<div class="hero">
+<svg viewBox="-500 -500 1000 1000">
+<defs>
+<linearGradient id="g"><stop offset="0" stop-color="#7d5319"/><stop offset=".5" stop-color="#ffe7a1"/><stop offset="1" stop-color="#8b5c1f"/></linearGradient>
+</defs>
+<circle r="455" fill="none" stroke="url(#g)" stroke-width="8"/>
+<circle r="420" fill="none" stroke="url(#g)" opacity=".3"/>
+<g stroke="url(#g)" fill="none">
+<circle r="350"/><circle r="280"/><circle r="210"/>
+<ellipse rx="360" ry="240"/><ellipse rx="240" ry="360"/>
+<path d="M0-420L0 420M-420 0L420 0"/>
+<path d="M-300-300L300 300M300-300L-300 300"/>
+<path d="M0-330L286 165-286 165Z"/>
+<path d="M0 330L286-165-286-165Z"/>
+</g>
+<g fill="url(#g)">
+<circle r="18"/>
+<circle cx="0" cy="-330" r="10"/>
+<circle cx="0" cy="330" r="10"/>
+<circle cx="-330" cy="0" r="10"/>
+<circle cx="330" cy="0" r="10"/>
+</g>
+</svg>
+</div>
+<div class="actions">
+<button>SVG</button><button>PNG 8K</button><button>PDF</button><button>Blueprint</button>
+</div>
+</div>
 
-function normalize(v){return(v||"AEON").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/Ü/g,"U").replace(/[^A-ZÑ\s'-]/g,"").replace(/\s+/g," ").trim()||"AEON"}
-function val(c){return ALPHABET.indexOf(c)+1}
-function hash(str){let h=2166136261>>>0;for(let c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
-function root(n){while(n>9)n=[...String(n)].reduce((a,b)=>a+ +b,0);return n}
-function analyze(raw){
-  let n=normalize(raw),letters=[...n].filter(c=>ALPHABET.includes(c)),values=letters.map(val),sum=values.reduce((a,b)=>a+b,0),counts={};
-  letters.forEach(c=>counts[c]=(counts[c]||0)+1);
-  let unique=[...new Set(letters)],vowels=letters.filter(c=>VOWELS.has(c)).length,frequency=root(sum),seed=hash(n+"|"+values.join(".")+"|GENETIC-V20");
-  let commands=values.map((v,i)=>({type:(v+i+frequency)%8,value:v,index:i,isVowel:VOWELS.has(letters[i]),repeat:counts[letters[i]]>1}));
-  return{n,letters,values,sum,unique,vowels,consonants:letters.length-vowels,frequency,seed,counts,commands,sequence:values.map(v=>String(v).padStart(2,"0")).join(".")}
-}
-const ns=(tag,attrs={})=>{let e=document.createElementNS("http://www.w3.org/2000/svg",tag);for(let k in attrs)e.setAttribute(k,attrs[k]);return e}
-const clear=e=>{while(e.firstChild)e.removeChild(e.firstChild)}
-const pathD=p=>p.map((q,i)=>(i?"L":"M")+" "+q[0].toFixed(2)+" "+q[1].toFixed(2)).join(" ")
-function path(g,p,o={}){g.appendChild(ns("path",{d:pathD(p),fill:"none",stroke:o.stroke||"url(#gold)","stroke-width":o.w||1.2,opacity:o.op??1,"stroke-linecap":"round","stroke-linejoin":"round"}))}
-function circle(g,x,y,r,o={}){g.appendChild(ns("circle",{cx:x,cy:y,r,fill:o.fill||"none",stroke:o.stroke||"url(#gold)","stroke-width":o.w||1.2,opacity:o.op??1}))}
-function bez(p0,p1,p2,p3,n=56){let p=[];for(let i=0;i<=n;i++){let t=i/n,u=1-t;p.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}return p}
-function rotatePoint(p,a){let c=Math.cos(a),s=Math.sin(a);return[p[0]*c-p[1]*s,p[0]*s+p[1]*c]}
-function transformAll(paths,a,scale=1){return paths.map(seg=>seg.map(p=>{let q=rotatePoint(p,a);return[q[0]*scale,q[1]*scale]}))}
-function clampPoint(p,R){let d=Math.hypot(p[0],p[1]);if(d>R)return[p[0]*R/d,p[1]*R/d];return p}
-
-function grow(a){
-  let R=455*S.coverage/95,primary=[],secondary=[],waves=[],nodes=[],tips=[[0,0]],angle=-Math.PI/2,step=48,scale=1;
-  let program=[],last=[0,0];
-
-  primary.push([[0,0],[0,-52]]);
-  tips=[[0,-52]];
-  last=[0,-52];
-
-  a.commands.forEach((cmd,idx)=>{
-    let v=cmd.value,turn=((v%11)-5)*Math.PI/38,localStep=step+(v%7)*8,branchAngle=Math.PI/(4+(v%5));
-    program.push(COMMAND_NAMES[cmd.type][0]+String(v).padStart(2,"0"));
-
-    if(cmd.type===0){ // nucleus: global concentric anchor
-      let r=34+(v%8)*7;secondary.push(circlePoints(r,72,idx*.13,1,1));nodes.push([0,0,4+(v%3)]);
-    }
-    if(cmd.type===1){ // bifurcation
-      let newTips=[];
-      tips.forEach((tip,j)=>{
-        let base=angle+turn+(j%2?-.08:.08);
-        [-1,1].forEach(sign=>{
-          let end=[tip[0]+Math.cos(base+sign*branchAngle)*localStep,tip[1]+Math.sin(base+sign*branchAngle)*localStep];
-          end=clampPoint(end,R*.9);primary.push([tip,end]);newTips.push(end);
-        })
-      });
-      tips=newTips.slice(-10);angle+=turn*.6;
-    }
-    if(cmd.type===2){ // curvature: bends every active tip
-      tips=tips.map((tip,j)=>{
-        let end=[tip[0]+Math.cos(angle+turn+j*.07)*localStep,tip[1]+Math.sin(angle+turn+j*.07)*localStep];
-        end=clampPoint(end,R*.9);
-        let c1=[tip[0]+Math.cos(angle+turn*.3)*localStep*.4,tip[1]+Math.sin(angle+turn*.3)*localStep*.4];
-        let c2=[end[0]-Math.cos(angle+turn)*localStep*.35,end[1]-Math.sin(angle+turn)*localStep*.35];
-        secondary.push(bez(tip,c1,c2,end));return end
-      });angle+=turn;
-    }
-    if(cmd.type===3){ // rotation: rotates all geometry accumulated so far
-      let rot=turn*(1.2+(v%4)*.25);primary=transformAll(primary,rot);secondary=transformAll(secondary,rot);waves=transformAll(waves,rot);tips=tips.map(p=>rotatePoint(p,rot));last=rotatePoint(last,rot);angle+=rot;
-    }
-    if(cmd.type===4){ // orbit around current centroid
-      let cx=tips.reduce((s,p)=>s+p[0],0)/tips.length,cy=tips.reduce((s,p)=>s+p[1],0)/tips.length,r=34+(v%9)*8;
-      secondary.push(circlePoints(r,80,turn,1,.62+(v%4)*.12).map(p=>[p[0]+cx,p[1]+cy]));
-      nodes.push([cx,cy,3+(v%4)]);
-    }
-    if(cmd.type===5){ // bridge between distant tips
-      if(tips.length>1){
-        let A=tips[0],B=tips[tips.length-1],mid=[(A[0]+B[0])/2,(A[1]+B[1])/2],normal=[-(B[1]-A[1]),B[0]-A[0]],len=Math.hypot(normal[0],normal[1])||1;
-        let lift=22+(v%8)*7,c1=[mid[0]+normal[0]/len*lift,mid[1]+normal[1]/len*lift],c2=[mid[0]-normal[0]/len*lift,mid[1]-normal[1]/len*lift];
-        secondary.push(bez(A,c1,c2,B));
-      }
-    }
-    if(cmd.type===6){ // echo: copies and transforms whole structure
-      let rot=Math.PI/(5+(v%7)),sc=.72+(v%5)*.035;
-      secondary.push(...transformAll(primary.slice(-Math.min(primary.length,8)),rot,sc));
-      if(cmd.repeat)secondary.push(...transformAll(primary.slice(-Math.min(primary.length,8)),-rot,sc));
-    }
-    if(cmd.type===7){ // closure: connects tips into an envelope
-      if(tips.length>2){let ring=[...tips,tips[0]];primary.push(ring)}
-      else if(tips.length===2)primary.push([tips[0],tips[1]]);
-      scale*=.97;
-    }
-
-    // vowels add wave fields; consonants reinforce structure
-    if(cmd.isVowel){
-      let L=150+(v%8)*22,amp=9+(v%7)*3,cy=1+(v%4),rot=angle+idx*.11;
-      waves.push(wavePoints(L,amp,cy,rot,v*.2,72).map(p=>clampPoint(p,R*.88)));
-    }else if(idx%2===0 && tips.length){
-      let t=tips[idx%tips.length];nodes.push([t[0],t[1],2.5+(v%4)]);
-    }
-
-    // repeated letters create paired resonant nodes
-    if(cmd.repeat && tips.length){
-      let t=tips[idx%tips.length];nodes.push([t[0],t[1],5]);secondary.push(circlePoints(18+(v%5)*4,48,0,1,1).map(p=>[p[0]+t[0],p[1]+t[1]]));
-    }
-
-    // keep growth inside pendant and gradually shorten
-    step=Math.max(25,step*.975);last=tips[tips.length-1]||last;
-  });
-
-  // normalize scale to occupy 90-95% of pendant surface
-  let all=[...primary.flat(),...secondary.flat(),...waves.flat(),...nodes.map(n=>[n[0],n[1]])];
-  let maxR=Math.max(1,...all.map(p=>Math.hypot(p[0],p[1]))),target=R*.94,f=target/maxR;
-  primary=primary.map(s=>s.map(p=>[p[0]*f,p[1]*f]));
-  secondary=secondary.map(s=>s.map(p=>[p[0]*f,p[1]*f]));
-  waves=waves.map(s=>s.map(p=>[p[0]*f,p[1]*f]));
-  nodes=nodes.map(n=>[n[0]*f,n[1]*f,n[2]]);
-
-  return{primary,secondary,waves,nodes,program};
-}
-function circlePoints(r,n=96,rot=0,sx=1,sy=1){let p=[];for(let i=0;i<=n;i++){let a=rot+i*Math.PI*2/n;p.push([Math.cos(a)*r*sx,Math.sin(a)*r*sy])}return p}
-function wavePoints(L,amp,cy,rot=0,off=0,n=80){let p=[],c=Math.cos(rot),s=Math.sin(rot);for(let i=0;i<=n;i++){let t=i/n,x=-L/2+t*L,y=Math.sin(t*Math.PI*2*cy+off)*amp;p.push([x*c-y*s,x*s+y*c])}return p}
-
-function drawTo(svg,a,mini=false){
-  if(!mini){
-    ["guide","echoes","curves","waves","branches","glowLayer","primary","nodes","coreLayer"].forEach(id=>clear(document.getElementById(id)));
-  }else clear(svg);
-
-  let groups;
-  if(mini){
-    let defs=document.getElementById("svg").querySelector("defs").cloneNode(true);svg.appendChild(defs);
-    groups={guide:ns("g"),echoes:ns("g"),curves:ns("g"),waves:ns("g"),branches:ns("g"),glowLayer:ns("g",{filter:"url(#glow)"}),primary:ns("g",{filter:"url(#soft)"}),nodes:ns("g"),coreLayer:ns("g")};
-    Object.values(groups).forEach(g=>svg.appendChild(g));
-  }else groups={guide,echoes,curves,waves,branches,glowLayer,primary,nodes,coreLayer};
-
-  let M=grow(a),w=S.stroke,main=S.mode==="technical"?"#d8e7ef":"url(#gold)",sec=S.mode==="technical"?"#7395a6":"url(#gold)";
-  circle(groups.guide,0,0,470,{w:.7,op:.11});circle(groups.guide,0,0,455,{w:.5,op:.08});
-  M.secondary.forEach((p,i)=>path(groups.curves,p,{w:w*.78,op:i%3===0?.52:.4,stroke:i%5===0?"#00d9ff":sec}));
-  M.waves.forEach((p,i)=>path(groups.waves,p,{w:w*.68,op:.36,stroke:i%2?"#00d9ff":sec}));
-  M.primary.forEach(p=>{path(groups.glowLayer,p,{w:w*5.4,op:.48,stroke:main});path(groups.primary,p,{w:w*1.5,op:.98,stroke:main})});
-  M.nodes.forEach((n,i)=>circle(groups.nodes,n[0],n[1],n[2],{fill:i%4===0?"#dffcff":"#f6c65b",stroke:"none",op:.84}));
-  circle(groups.coreLayer,0,0,65,{fill:"url(#core)",stroke:"none",op:.96});circle(groups.coreLayer,0,0,24,{fill:"#031927",stroke:"#00d9ff",w:1.3,op:.98});circle(groups.coreLayer,0,0,8,{fill:"#fff",stroke:"none"});
-  return M;
-}
-function traits(a){let out=[];for(let i=0;i<5;i++)out.push(TRAITS[(a.seed+i*7+a.values[i%a.values.length])%TRAITS.length]);return[...new Set(out)].slice(0,5)}
-function codeOf(a){return`LG-${String(a.letters.length).padStart(2,"0")}-${String(a.sum).padStart(3,"0")}-${a.frequency}-${a.vowels}-${a.unique.length}-${a.seed.toString(16).slice(-4).toUpperCase()}`}
-function update(save=true){
-  let a=analyze(S.name),t=traits(a),M=drawTo(svg,a),code=codeOf(a);
-  displayName.textContent=a.n;document.getElementById("code").textContent=code;seed.textContent="Semilla: "+a.seed.toString(16).toUpperCase().padStart(8,"0");
-  grammar.textContent="Gramática: "+M.program.join("·");document.getElementById("traits").textContent=t.join(" · ");sequence.textContent=a.sequence;program.textContent=M.program.join(" → ");
-  metrics.innerHTML=[["Letras",a.letters.length],["Instrucciones",a.commands.length],["Ramas",M.primary.length],["Curvas",M.secondary.length],["Ondas",M.waves.length],["Cobertura",S.coverage+"%"]].map(x=>`<div class="metric"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join("");
-  let counts={};a.commands.forEach(c=>counts[c.type]=(counts[c.type]||0)+1);
-  reading.innerHTML=Object.entries(counts).sort((x,y)=>y[1]-x[1]).slice(0,6).map(([k,v])=>`<div class="item"><div class="sym">${COMMAND_NAMES[k][0]}</div><div><b>${COMMAND_NAMES[k]}</b><small>${v} instrucciones activas</small></div></div>`).join("");
-  checks.innerHTML=[["Cobertura útil",S.coverage+"%"],["Marco circular","Fijo"],["Topología","Evolutiva"],["Separación mínima",S.stroke<=1.4?"Óptima":"Revisar"],["Plantillas","Ninguna"],["Repetibilidad","Determinista"]].map(x=>`<div class="check"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
-  manufacture.textContent=S.stroke<=1.4?"Apta para grabado y corte fino":"Apta con ajuste de escala";
-  message.textContent=`“La firma de ${a.n} no selecciona un dibujo previo. Crece instrucción por instrucción: cada letra altera la geometría ya construida.”`;
-  compare(a);
-  if(save){let h=JSON.parse(localStorage.getItem("firmas-v20")||"[]");localStorage.setItem("firmas-v20",JSON.stringify([{name:a.n,code},...h.filter(x=>x.name!==a.n)].slice(0,12)));renderHistory()}
-}
-function compare(a){
-  let altName=a.n==="SALVADOR"?"MARIA MAGDALENA VAZQUEZ":"SALVADOR",b=analyze(altName);
-  drawTo(compareA,a,true);drawTo(compareB,b,true);
-  compareNameA.textContent=a.n;compareCodeA.textContent=codeOf(a);compareNameB.textContent=b.n;compareCodeB.textContent=codeOf(b);
-}
-function renderHistory(){
-  let h=JSON.parse(localStorage.getItem("firmas-v20")||"[]");history.innerHTML=h.map(x=>`<div data-name="${x.name}"><b>${x.name}</b><small>${x.code}</small></div>`).join("");
-  history.querySelectorAll("div").forEach(e=>e.onclick=()=>{S.name=e.dataset.name;name.value=S.name;update(false)})
-}
-generate.onclick=()=>{S.name=name.value;update()};name.onkeydown=e=>{if(e.key==="Enter"){S.name=name.value;update()}};
-modes.onclick=e=>{let b=e.target.closest("button[data-mode]");if(!b)return;modes.querySelectorAll("button").forEach(x=>x.classList.remove("active"));b.classList.add("active");S.mode=b.dataset.mode;update(false)};
-coverage.oninput=e=>{S.coverage=+e.target.value;covVal.textContent=S.coverage+"%";update(false)};
-complexity.oninput=e=>{S.complexity=+e.target.value;comVal.textContent=S.complexity+"%";update(false)};
-stroke.oninput=e=>{S.stroke=+e.target.value;strVal.textContent=S.stroke.toFixed(1)+" mm";update(false)};
-clear.onclick=()=>{localStorage.removeItem("firmas-v20");renderHistory()};
-copyBtn.onclick=()=>navigator.clipboard.writeText(document.getElementById("code").textContent);
-function serialize(){let s=document.getElementById("svg").cloneNode(true);s.setAttribute("xmlns","http://www.w3.org/2000/svg");return new XMLSerializer().serializeToString(s)}
-svgBtn.onclick=()=>{let a=document.createElement("a");a.download=normalize(S.name)+"-firma-genetica.svg";a.href=URL.createObjectURL(new Blob([serialize()],{type:"image/svg+xml"}));a.click()};
-pngBtn.onclick=()=>{let i=new Image(),u=URL.createObjectURL(new Blob([serialize()],{type:"image/svg+xml"}));i.onload=()=>{let c=document.createElement("canvas");c.width=c.height=4096;let x=c.getContext("2d");x.fillStyle="#030712";x.fillRect(0,0,4096,4096);x.drawImage(i,0,0,4096,4096);let a=document.createElement("a");a.download=normalize(S.name)+"-firma-4K.png";a.href=c.toDataURL();a.click()};i.src=u};
-jsonBtn.onclick=()=>{let d=analyze(S.name),M=grow(d),a=document.createElement("a");a.download=d.n+"-programa-geometrico.json";a.href=URL.createObjectURL(new Blob([JSON.stringify({...d,program:M.program,coverage:S.coverage,complexity:S.complexity,stroke:S.stroke},null,2)],{type:"application/json"}));a.click()};
-S.name=name.value;update(false);renderHistory();
-</script>
+<div class="panel">
+<h2>Interpretación</h2>
+<div class="card"><b>Arquitectura</b><br><small>Motor de crecimiento</small></div>
+<div class="card"><b>Topología</b><br><small>Huella irrepetible</small></div>
+<div class="card"><b>Joyería</b><br><small>95% de ocupación</small></div>
+<div class="card"><b>Estado</b><br><small>Apto para grabado láser</small></div>
+</div>
+</div>
 </body>
 </html>

@@ -1,22 +1,8 @@
-# Lenguaje Geométrico Universal V20 — Motor Genético
+V30 es un rediseño visual inspirado en la distribución editorial del concepto mostrado por el usuario, pero con identidad propia.
 
-Esta versión elimina las plantillas.
-
-Cada letra ejecuta una instrucción sobre toda la geometría existente:
-- núcleo
-- bifurcación
-- curvatura
-- rotación global
-- órbita
-- puente
-- eco
-- cierre
-
-Las vocales generan campos ondulatorios.
-Las consonantes refuerzan ramas y nodos.
-Las letras repetidas crean ecos resonantes.
-El patrón final se normaliza para ocupar 90–95% del colgante.
-
-## Netlify
-Build command: vacío
-Publish directory: .
+Próxima etapa:
+- motor generativo completamente nuevo
+- render PBR del colgante
+- tipografía editorial
+- paneles dinámicos
+- exportación DXF/SVG/PDF
