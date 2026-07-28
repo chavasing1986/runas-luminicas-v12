@@ -1,13 +1,22 @@
-# Lenguaje Geométrico Universal V17
+# Lenguaje Geométrico Universal V20 — Motor Genético
 
-Plataforma estática lista para GitHub y Netlify.
+Esta versión elimina las plantillas.
 
-- Marco circular fijo.
-- Firma ocupando 90–95% del colgante.
-- Firma única y repetible por nombre.
-- SVG de fabricación, PNG 4K y JSON.
-- Sin npm ni compilación.
+Cada letra ejecuta una instrucción sobre toda la geometría existente:
+- núcleo
+- bifurcación
+- curvatura
+- rotación global
+- órbita
+- puente
+- eco
+- cierre
 
-Netlify:
-- Build command: vacío
-- Publish directory: .
+Las vocales generan campos ondulatorios.
+Las consonantes refuerzan ramas y nodos.
+Las letras repetidas crean ecos resonantes.
+El patrón final se normaliza para ocupar 90–95% del colgante.
+
+## Netlify
+Build command: vacío
+Publish directory: .
