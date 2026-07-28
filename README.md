@@ -1,40 +1,20 @@
-# RUNAS LUMÍNICAS V13 — PROFESIONAL
+# FIRMAS GEOMÉTRICAS V15 — CIVILIZACIÓN JOVIANA
 
-Versión estática lista para GitHub y Netlify.
+Nueva página basada en el lenguaje visual del concepto original:
 
-## No requiere compilación
+- firma geométrica central;
+- ejemplos de identidades;
+- gramática visual;
+- interpretación personalizada;
+- simulación de colgante;
+- lectura óptica;
+- exportación SVG, PNG 4K y JSON;
+- PWA instalable;
+- proyecto estático sin compilación.
 
-No usa npm, React ni Vite. Netlify publica directamente la raíz del repositorio.
+## Publicación en Netlify
 
-## Archivos
+Build command: vacío  
+Publish directory: `.`
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- `manifest.webmanifest`
-- `sw.js`
-- `netlify.toml`
-- `README.md`
-
-## Funciones
-
-- Una runa única y reproducible por nombre
-- Modos ceremonial, técnico, minimalista y joviano
-- Simetría bilateral, radial e híbrida
-- Intensidad y densidad ajustables
-- ADN geométrico
-- Historial local
-- Exportación SVG
-- Exportación PNG 4K
-- Exportación JSON
-- PWA instalable
-- Funcionamiento offline después de la primera carga
-
-## Netlify
-
-- Build command: dejar vacío
-- Publish directory: `.`
-
-## Actualización automática
-
-Cada commit en GitHub genera una nueva publicación en Netlify.
+Sube todos los archivos a la raíz del repositorio de GitHub. Netlify actualizará automáticamente.

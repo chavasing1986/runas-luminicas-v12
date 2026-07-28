@@ -1,10 +1,10 @@
 {
-  "name": "Runas Lumínicas",
-  "short_name": "Runas",
+  "name": "Firmas Geométricas — Civilización Joviana",
+  "short_name": "Firmas Jovianas",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#030712",
   "theme_color": "#030712",
-  "description": "Generador de runas personalizadas mediante ADN geométrico nominal.",
+  "description": "Generador de firmas geométricas únicas mediante ADN nominal.",
   "icons": []
 }

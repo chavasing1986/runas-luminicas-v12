@@ -4,141 +4,128 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#030712">
-  <meta name="description" content="Runas Lumínicas V13: una runa única, reproducible y exportable para cada nombre.">
-  <title>RUNAS LUMÍNICAS · V13</title>
+  <meta name="description" content="Sistema de Firmas Geométricas — Civilización Joviana. Cada nombre genera una arquitectura visual única.">
+  <title>Firmas Geométricas · Civilización Joviana</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div class="cosmos"></div>
+
   <main class="app-shell">
-    <header class="topbar">
-      <div class="brand">
-        <div class="seal-mini" aria-hidden="true">✦</div>
-        <div>
-          <span class="eyebrow">Sistema universal de identidad mediante patrones</span>
-          <h1>RUNAS LUMÍNICAS</h1>
-          <p>V13 · Motor rúnico nominal · SVG generativo · Exportación 4K</p>
-        </div>
+    <header class="topbar panel">
+      <div>
+        <span class="eyebrow">Civilización Joviana · Archivo de identidades</span>
+        <h1>SISTEMA DE FIRMAS GEOMÉTRICAS</h1>
+        <p>Cada nombre posee una configuración geométrica única que codifica su identidad.</p>
       </div>
-      <div class="top-actions">
-        <button id="installBtn" class="ghost hidden">Instalar app</button>
+      <div class="header-actions">
+        <button id="installBtn" class="ghost hidden">Instalar aplicación</button>
         <span class="status">Sistema activo</span>
       </div>
     </header>
 
-    <section class="layout">
-      <aside class="panel controls">
+    <section class="hero-grid">
+      <aside class="panel generator-panel">
         <div class="panel-title">
-          <span>Generador</span>
-          <small>Identidad nominal</small>
+          <span>Generador nominal</span>
+          <small>Entrada de identidad</small>
         </div>
 
         <label for="nameInput">Nombre o palabra</label>
         <input id="nameInput" value="SALVADOR" maxlength="48" autocomplete="off">
-        <button id="generateBtn" class="primary">Generar runa</button>
+        <button id="generateBtn" class="primary">Construir firma</button>
 
         <div class="section">
           <h3>Modo visual</h3>
           <div class="segmented" id="modeGroup">
             <button data-mode="ceremonial" class="active">Ceremonial</button>
             <button data-mode="technical">Técnico</button>
-            <button data-mode="minimal">Minimalista</button>
+            <button data-mode="minimal">Minimal</button>
             <button data-mode="jovian">Joviano</button>
           </div>
         </div>
 
         <div class="section">
-          <h3>Simetría</h3>
-          <div class="segmented three" id="symmetryGroup">
-            <button data-symmetry="bilateral" class="active">Bilateral</button>
-            <button data-symmetry="radial">Radial</button>
-            <button data-symmetry="hybrid">Híbrida</button>
-          </div>
+          <h3>Arquitectura</h3>
+          <div id="architectureName" class="architecture-badge">Hexa-Órbita</div>
+          <small id="architectureDescription">Núcleo, ejes, órbitas y sello exterior organizados como una sola presencia.</small>
         </div>
 
         <div class="section">
-          <h3>Intensidad lumínica</h3>
-          <input id="intensityRange" type="range" min="35" max="150" value="94">
-          <div class="range-row"><span>Sutil</span><strong id="intensityValue">94%</strong><span>Radiante</span></div>
-        </div>
-
-        <div class="section">
-          <h3>Densidad interna</h3>
-          <input id="densityRange" type="range" min="0" max="100" value="58">
-          <div class="range-row"><span>Limpia</span><strong id="densityValue">58%</strong><span>Compleja</span></div>
+          <h3>Complejidad visual</h3>
+          <input id="complexityRange" type="range" min="20" max="100" value="68">
+          <div class="range-row"><span>Esencial</span><strong id="complexityValue">68%</strong><span>Monumental</span></div>
         </div>
 
         <div class="section signature-card">
-          <h3>Firma actual</h3>
+          <h3>Identificador técnico</h3>
           <strong id="signatureCode">LG-08-096-6-3-7</strong>
           <small id="signatureSeed">Semilla: 00000000</small>
-          <small id="signatureMode">Ceremonial · Bilateral</small>
         </div>
       </aside>
 
-      <section class="stage panel">
-        <div class="stage-heading">
-          <span>Runa generada</span>
+      <section class="panel main-signature-panel">
+        <div class="signature-title">
+          <span>Tu firma geométrica personal</span>
           <strong id="displayName">SALVADOR</strong>
-          <small id="runeId">SR-66</small>
+          <small id="signatureSubtitle">Visión · Lealtad · Protección · Sabiduría · Creación</small>
         </div>
 
-        <div class="rune-frame">
-          <svg id="runeSvg" viewBox="-420 -540 840 1080" role="img" aria-label="Runa personalizada generada">
-            <defs>
-              <filter id="glowStrong" x="-80%" y="-80%" width="260%" height="260%">
-                <feGaussianBlur stdDeviation="9" result="b1"/>
-                <feGaussianBlur stdDeviation="22" result="b2"/>
-                <feMerge>
-                  <feMergeNode in="b2"/>
-                  <feMergeNode in="b1"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <filter id="glowSoft" x="-60%" y="-60%" width="220%" height="220%">
-                <feGaussianBlur stdDeviation="3.5" result="b"/>
-                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="glassBlur" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="1.2"/>
-              </filter>
-              <radialGradient id="coreGradient">
-                <stop offset="0" stop-color="#ffffff"/>
-                <stop offset=".12" stop-color="#e8fdff"/>
-                <stop offset=".36" stop-color="#00e5ff" stop-opacity=".88"/>
-                <stop offset="1" stop-color="#00e5ff" stop-opacity="0"/>
-              </radialGradient>
-              <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#6f3e14"/>
-                <stop offset=".18" stop-color="#c78228"/>
-                <stop offset=".38" stop-color="#f6c65b"/>
-                <stop offset=".5" stop-color="#fff1b5"/>
-                <stop offset=".64" stop-color="#f6c65b"/>
-                <stop offset=".84" stop-color="#a95d1c"/>
-                <stop offset="1" stop-color="#5d3110"/>
-              </linearGradient>
-              <linearGradient id="cyanGradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#76f3ff"/>
-                <stop offset=".5" stop-color="#00e5ff"/>
-                <stop offset="1" stop-color="#006d7d"/>
-              </linearGradient>
-            </defs>
+        <div class="signature-layout">
+          <div class="signature-canvas-wrap">
+            <svg id="signatureSvg" viewBox="-420 -420 840 840" role="img" aria-label="Firma geométrica personalizada">
+              <defs>
+                <filter id="goldGlow" x="-80%" y="-80%" width="260%" height="260%">
+                  <feGaussianBlur stdDeviation="7" result="b1"/>
+                  <feGaussianBlur stdDeviation="18" result="b2"/>
+                  <feMerge>
+                    <feMergeNode in="b2"/>
+                    <feMergeNode in="b1"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="2.8" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <radialGradient id="coreGradient">
+                  <stop offset="0" stop-color="#ffffff"/>
+                  <stop offset=".16" stop-color="#dffcff"/>
+                  <stop offset=".42" stop-color="#00bfe8"/>
+                  <stop offset=".74" stop-color="#005a82" stop-opacity=".72"/>
+                  <stop offset="1" stop-color="#00131d" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#704015"/>
+                  <stop offset=".2" stop-color="#c07b29"/>
+                  <stop offset=".42" stop-color="#f6c65b"/>
+                  <stop offset=".52" stop-color="#fff1b5"/>
+                  <stop offset=".68" stop-color="#f6c65b"/>
+                  <stop offset=".86" stop-color="#a15a1d"/>
+                  <stop offset="1" stop-color="#59300f"/>
+                </linearGradient>
+              </defs>
 
-            <g id="backgroundGeometry"></g>
-            <g id="echoLayer"></g>
-            <g id="microLayer"></g>
-            <g id="secondaryLayer"></g>
-            <g id="primaryGlow" filter="url(#glowStrong)"></g>
-            <g id="primaryLayer" filter="url(#glowSoft)"></g>
-            <g id="nodeLayer"></g>
-            <g id="coreLayer"></g>
-          </svg>
+              <g id="gridLayer"></g>
+              <g id="orbitLayer"></g>
+              <g id="secondaryLayer"></g>
+              <g id="primaryGlow" filter="url(#goldGlow)"></g>
+              <g id="primaryLayer" filter="url(#softGlow)"></g>
+              <g id="nodeLayer"></g>
+              <g id="coreLayer"></g>
+            </svg>
+          </div>
+
+          <div class="interpretation-column">
+            <h3>Interpretación de tu patrón</h3>
+            <div id="componentReading" class="component-reading"></div>
+          </div>
         </div>
 
-        <div class="essence">
-          <span>Esencia</span>
-          <strong id="essenceText">Estructura · Concentración · Resonancia · Manifestación</strong>
+        <div class="signature-footer">
+          <div id="strengthsText">Fortalezas clave: visión · lealtad · protección · sabiduría · creación</div>
+          <div id="challengeText">Desafío: confiar en el fluir sin perder el enfoque.</div>
         </div>
 
         <div class="actions">
@@ -149,52 +136,79 @@
         </div>
       </section>
 
-      <aside class="panel reading">
+      <aside class="panel language-panel">
         <div class="panel-title">
-          <span>Lectura activa</span>
-          <small>Interpretación del nombre</small>
+          <span>Lenguaje geométrico</span>
+          <small>Gramática visual</small>
         </div>
-
-        <div class="reading-block">
-          <h3>Significado</h3>
-          <p id="meaningText"></p>
+        <div class="legend">
+          <div><i class="legend-icon circle"></i><span><strong>Círculo central</strong><small>Esencia, conciencia y origen.</small></span></div>
+          <div><i class="legend-icon hexagon"></i><span><strong>Polígono rector</strong><small>Orden, estructura y proyección.</small></span></div>
+          <div><i class="legend-icon triangle-up"></i><span><strong>Triángulo ascendente</strong><small>Energía, propósito y expansión.</small></span></div>
+          <div><i class="legend-icon triangle-down"></i><span><strong>Triángulo descendente</strong><small>Intuición, recepción e inmersión.</small></span></div>
+          <div><i class="legend-icon sun"></i><span><strong>Líneas radiales</strong><small>Decisiones, conexiones y caminos.</small></span></div>
+          <div><i class="legend-icon dot"></i><span><strong>Puntos orbitales</strong><small>Experiencias, vínculos y aprendizajes.</small></span></div>
+          <div><i class="legend-icon spiral"></i><span><strong>Espiral</strong><small>Evolución, tiempo y transformación.</small></span></div>
+          <div><i class="legend-icon waves"></i><span><strong>Ondas</strong><small>Comunicación, influencia e impacto.</small></span></div>
         </div>
-
-        <div class="reading-block">
-          <h3>ADN geométrico</h3>
-          <div id="metrics" class="metrics"></div>
-        </div>
-
-        <div class="reading-block">
-          <h3>Secuencia nominal</h3>
-          <code id="sequenceText"></code>
-          <small id="rhythmText"></small>
-        </div>
-
-        <div class="reading-block">
-          <h3>Mensaje</h3>
-          <p id="messageText"></p>
-        </div>
-
-        <blockquote id="mantraText"></blockquote>
       </aside>
     </section>
 
-    <section class="panel library">
-      <div class="library-head">
-        <div>
-          <span class="eyebrow">Archivo personal</span>
-          <h2>Runas recientes</h2>
+    <section class="secondary-grid">
+      <section class="panel examples-panel">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Ejemplos</span>
+            <h2>Firmas geométricas de referencia</h2>
+          </div>
+          <button id="refreshExamples" class="ghost">Nuevas muestras</button>
         </div>
-        <button id="clearHistory" class="ghost">Limpiar historial</button>
-      </div>
-      <div id="history" class="history"></div>
+        <div id="examplesGrid" class="examples-grid"></div>
+      </section>
+
+      <section class="panel pendant-panel">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Aplicación física</span>
+            <h2>Así se ve tu firma en un colgante</h2>
+          </div>
+        </div>
+
+        <div class="pendant-stage">
+          <div class="cord"></div>
+          <div class="bail"></div>
+          <div class="pendant">
+            <svg id="pendantSvg" viewBox="-420 -420 840 840" aria-label="Colgante personalizado"></svg>
+          </div>
+        </div>
+        <p>Tu firma funciona como identidad visual, emblema, protección simbólica y pieza de joyería.</p>
+      </section>
     </section>
 
-    <footer>
-      El nombre no se escribe. Se construye. La geometría se convierte en identidad.
-    </footer>
+    <section class="panel optical-panel">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Lectura óptica</span>
+          <h2>Descomposición de la firma</h2>
+        </div>
+      </div>
+      <div id="opticalSequence" class="optical-sequence"></div>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Archivo personal</span>
+          <h2>Firmas recientes</h2>
+        </div>
+        <button id="clearHistory" class="ghost">Limpiar</button>
+      </div>
+      <div id="history" class="history-grid"></div>
+    </section>
+
+    <footer>La firma no se escribe. La identidad se construye. La geometría es el nombre.</footer>
   </main>
+
   <script src="./app.js"></script>
 </body>
 </html>
