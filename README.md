@@ -1,5 +1,13 @@
-# FIRMAS GEOMÉTRICAS V16 — LENGUAJE GEOMÉTRICO COMPLETO
+# Lenguaje Geométrico Universal V17
 
-Incluye polígonos, círculos, líneas radiales, curvas Bézier, ondas, espirales, rosas geométricas, curvas Lissajous, nodos y núcleo energético.
+Plataforma estática lista para GitHub y Netlify.
 
-Netlify: build vacío; publish `.`.
+- Marco circular fijo.
+- Firma ocupando 90–95% del colgante.
+- Firma única y repetible por nombre.
+- SVG de fabricación, PNG 4K y JSON.
+- Sin npm ni compilación.
+
+Netlify:
+- Build command: vacío
+- Publish directory: .

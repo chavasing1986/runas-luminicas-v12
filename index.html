@@ -1,214 +1,79 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#030712">
-  <meta name="description" content="Sistema de Firmas Geométricas — Civilización Joviana. Cada nombre genera una arquitectura visual única.">
-  <title>Firmas Geométricas V16 · Civilización Joviana</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030712">
+<title>Lenguaje Geométrico Universal V17</title>
+<style>
+:root{--bg:#030712;--panel:#07101f;--gold:#f6c65b;--cyan:#00d9ff;--text:#e8edf5;--muted:#74849c;--border:rgba(246,198,91,.18)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 15%,#0a1526,#030712 58%);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:radial-gradient(circle,#fff 0 1px,transparent 1.2px);background-size:100px 100px}
+.app{position:relative;max-width:1800px;margin:auto;padding:14px}.panel{background:linear-gradient(180deg,rgba(9,18,33,.96),rgba(4,10,22,.98));border:1px solid var(--border);border-radius:20px;box-shadow:0 26px 80px #0008}
+header{padding:18px 22px;display:flex;justify-content:space-between;gap:20px;align-items:end}h1{margin:5px 0;color:#e4a64e;font:clamp(24px,3vw,38px) Georgia;letter-spacing:.12em}.eyebrow{color:#67e8f9;font-size:10px;letter-spacing:.22em;text-transform:uppercase}header p{margin:0;color:#aeb9c7}.status{color:#8ff0b1;border:1px solid #00e67633;border-radius:999px;padding:8px 12px;font-size:10px;letter-spacing:.12em}
+.grid{display:grid;grid-template-columns:320px minmax(650px,1fr) 360px;gap:14px;margin-top:14px}.side,.main{padding:17px}
+.title{display:flex;justify-content:space-between}.title b{font:17px Georgia;color:#fff0ad}.title small{color:#64748b;text-transform:uppercase;letter-spacing:.12em}
+label{display:block;margin:15px 0 7px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.13em}input[type=text]{width:100%;padding:12px;border:1px solid #f6c65b44;border-radius:11px;background:#020617;color:#fff4c7}
+button{cursor:pointer;border:1px solid #94a3b824;background:#0f172a88;color:#a8b5c7;border-radius:10px;padding:10px}button:hover{color:#fff0ad;border-color:#f6c65b66}.primary{width:100%;margin-top:10px;background:linear-gradient(90deg,#6f3e07,#a66b0a);color:#fff3bd}
+.section{margin-top:15px;padding:13px;border:1px solid #94a3b817;border-radius:14px;background:#02061755}.section h3{margin:0 0 10px;color:#fde68a;font-size:10px;text-transform:uppercase;letter-spacing:.16em}
+.segmented{display:grid;grid-template-columns:1fr 1fr;gap:7px}.segmented button.active{color:#fff0ad;background:#f6c65b14;border-color:#f6c65b77}
+input[type=range]{width:100%;accent-color:var(--gold)}.range{display:flex;justify-content:space-between;color:#74849c;font-size:9px}.range strong{color:#fde68a}
+.signature-title{text-align:center}.signature-title span{color:#e4a64e;font:11px Georgia;letter-spacing:.12em;text-transform:uppercase}.signature-title strong{display:block;margin-top:7px;color:#e9b968;font:clamp(21px,2.2vw,30px) Georgia;letter-spacing:.14em}.signature-title small{display:block;margin-top:6px;color:#73839b;font-size:10px;letter-spacing:.1em}
+.stage{position:relative;margin-top:12px;min-height:680px;border:1px solid #f6c65b16;border-radius:18px;background:radial-gradient(circle at 50% 48%,#f6c65b12,transparent 35%),linear-gradient(#090807,#020202);overflow:hidden}
+.cord{position:absolute;left:5%;right:5%;top:38px;height:44px;border-radius:50%;border-top:22px solid #0c0a09}.bail{position:absolute;left:50%;top:58px;transform:translateX(-50%);width:46px;height:70px;border:6px solid #9f6326;border-radius:9px;background:linear-gradient(#d7a55b,#6a3c15);z-index:3}
+.pendant{position:absolute;left:50%;top:110px;transform:translateX(-50%);width:min(590px,84vw);height:min(590px,84vw);border:10px solid #9b642d;border-radius:50%;background:radial-gradient(circle,#0c131c,#020304 74%);box-shadow:0 0 38px #f6c65b24,inset 0 0 32px #f6c65b1a}
+svg{width:100%;height:100%;display:block}.actions{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:12px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.metric{padding:10px;border:1px solid #94a3b817;border-radius:11px;background:#0f172a66}.metric small,.metric strong{display:block}.metric small{color:#64748b;font-size:9px;text-transform:uppercase}.metric strong{margin-top:4px;color:#fff0ad}
+.item{display:grid;grid-template-columns:26px 1fr;gap:9px;margin-top:9px}.sym{width:26px;height:26px;border:1px solid #f6c65b55;border-radius:50%;display:grid;place-items:center;color:#fde68a}.item b{display:block;color:#e5ad58;font-size:10px;text-transform:uppercase}.item small{color:#aab6c8}
+.check{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #94a3b814}.check span{color:#aab6c8;font-size:11px}.check b{color:#8ff0b1;font-size:11px}
+blockquote{margin:15px 0 0;padding:15px;border:1px solid #00d9ff2e;border-radius:14px;color:#ecfeff;background:#00d9ff0a;font:15px/1.6 Georgia}
+.bottom{margin-top:14px;padding:17px}.finger{display:grid;grid-template-columns:1fr 1fr .7fr;gap:12px;margin-top:12px}.finger>div{padding:13px;border:1px solid #94a3b817;border-radius:12px;background:#02061755}code{color:#fde68a;word-break:break-word}
+.history{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:12px}.history div{padding:11px;border:1px solid #94a3b81a;border-radius:12px;background:#02061755;cursor:pointer}.history b,.history small{display:block}.history b{color:#fff0ad}.history small{color:#64748b}
+footer{text-align:center;color:#64748b;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:22px}
+@media(max-width:1380px){.grid{grid-template-columns:1fr}.finger{grid-template-columns:1fr}.history{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){header{flex-direction:column;align-items:flex-start}.stage{min-height:470px}.pendant{top:90px;width:360px;height:360px;max-width:84vw;max-height:84vw}.history{grid-template-columns:1fr 1fr}.segmented{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="cosmos"></div>
-
-  <main class="app-shell">
-    <header class="topbar panel">
-      <div>
-        <span class="eyebrow">Civilización Joviana · Archivo de identidades</span>
-        <h1>SISTEMA DE FIRMAS GEOMÉTRICAS V16</h1>
-        <p>Cada nombre posee una configuración geométrica única que codifica su identidad.</p>
-      </div>
-      <div class="header-actions">
-        <button id="installBtn" class="ghost hidden">Instalar aplicación</button>
-        <span class="status">Sistema activo</span>
-      </div>
-    </header>
-
-    <section class="hero-grid">
-      <aside class="panel generator-panel">
-        <div class="panel-title">
-          <span>Generador nominal</span>
-          <small>Entrada de identidad</small>
-        </div>
-
-        <label for="nameInput">Nombre o palabra</label>
-        <input id="nameInput" value="SALVADOR" maxlength="48" autocomplete="off">
-        <button id="generateBtn" class="primary">Construir firma</button>
-
-        <div class="section">
-          <h3>Modo visual</h3>
-          <div class="segmented" id="modeGroup">
-            <button data-mode="ceremonial" class="active">Ceremonial</button>
-            <button data-mode="technical">Técnico</button>
-            <button data-mode="minimal">Minimal</button>
-            <button data-mode="jovian">Joviano</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3>Arquitectura</h3>
-          <div id="architectureName" class="architecture-badge">Hexa-Órbita</div>
-          <small id="architectureDescription">Núcleo, ejes, órbitas y sello exterior organizados como una sola presencia.</small>
-        </div>
-
-        <div class="section">
-          <h3>Complejidad visual</h3>
-          <input id="complexityRange" type="range" min="20" max="100" value="68">
-          <div class="range-row"><span>Esencial</span><strong id="complexityValue">68%</strong><span>Monumental</span></div>
-        </div>
-
-        <div class="section signature-card">
-          <h3>Identificador técnico</h3>
-          <strong id="signatureCode">LG-08-096-6-3-7</strong>
-          <small id="signatureSeed">Semilla: 00000000</small>
-        </div>
-      </aside>
-
-      <section class="panel main-signature-panel">
-        <div class="signature-title">
-          <span>Tu firma geométrica personal</span>
-          <strong id="displayName">SALVADOR</strong>
-          <small id="signatureSubtitle">Visión · Lealtad · Protección · Sabiduría · Creación</small>
-        </div>
-
-        <div class="signature-layout">
-          <div class="signature-canvas-wrap">
-            <svg id="signatureSvg" viewBox="-420 -420 840 840" role="img" aria-label="Firma geométrica personalizada">
-              <defs>
-                <filter id="goldGlow" x="-80%" y="-80%" width="260%" height="260%">
-                  <feGaussianBlur stdDeviation="7" result="b1"/>
-                  <feGaussianBlur stdDeviation="18" result="b2"/>
-                  <feMerge>
-                    <feMergeNode in="b2"/>
-                    <feMergeNode in="b1"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-                <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
-                  <feGaussianBlur stdDeviation="2.8" result="b"/>
-                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-                <radialGradient id="coreGradient">
-                  <stop offset="0" stop-color="#ffffff"/>
-                  <stop offset=".16" stop-color="#dffcff"/>
-                  <stop offset=".42" stop-color="#00bfe8"/>
-                  <stop offset=".74" stop-color="#005a82" stop-opacity=".72"/>
-                  <stop offset="1" stop-color="#00131d" stop-opacity="0"/>
-                </radialGradient>
-                <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#704015"/>
-                  <stop offset=".2" stop-color="#c07b29"/>
-                  <stop offset=".42" stop-color="#f6c65b"/>
-                  <stop offset=".52" stop-color="#fff1b5"/>
-                  <stop offset=".68" stop-color="#f6c65b"/>
-                  <stop offset=".86" stop-color="#a15a1d"/>
-                  <stop offset="1" stop-color="#59300f"/>
-                </linearGradient>
-              </defs>
-
-              <g id="gridLayer"></g>
-              <g id="orbitLayer"></g>
-              <g id="secondaryLayer"></g>
-              <g id="primaryGlow" filter="url(#goldGlow)"></g>
-              <g id="primaryLayer" filter="url(#softGlow)"></g>
-              <g id="nodeLayer"></g>
-              <g id="coreLayer"></g>
-            </svg>
-          </div>
-
-          <div class="interpretation-column">
-            <h3>Interpretación de tu patrón</h3>
-            <div id="componentReading" class="component-reading"></div>
-          </div>
-        </div>
-
-        <div class="signature-footer">
-          <div id="strengthsText">Fortalezas clave: visión · lealtad · protección · sabiduría · creación</div>
-          <div id="challengeText">Desafío: confiar en el fluir sin perder el enfoque.</div>
-        </div>
-
-        <div class="actions">
-          <button id="downloadSvg">Descargar SVG</button>
-          <button id="downloadPng">PNG 4K</button>
-          <button id="downloadJson">JSON</button>
-          <button id="copyCode">Copiar código</button>
-        </div>
-      </section>
-
-      <aside class="panel language-panel">
-        <div class="panel-title">
-          <span>Lenguaje geométrico</span>
-          <small>Gramática visual</small>
-        </div>
-        <div class="legend">
-          <div><i class="legend-icon circle"></i><span><strong>Círculo central</strong><small>Esencia, conciencia y origen.</small></span></div>
-          <div><i class="legend-icon hexagon"></i><span><strong>Polígono rector</strong><small>Orden, estructura y proyección.</small></span></div>
-          <div><i class="legend-icon triangle-up"></i><span><strong>Triángulo ascendente</strong><small>Energía, propósito y expansión.</small></span></div>
-          <div><i class="legend-icon triangle-down"></i><span><strong>Triángulo descendente</strong><small>Intuición, recepción e inmersión.</small></span></div>
-          <div><i class="legend-icon sun"></i><span><strong>Líneas radiales</strong><small>Decisiones, conexiones y caminos.</small></span></div>
-          <div><i class="legend-icon dot"></i><span><strong>Puntos orbitales</strong><small>Experiencias, vínculos y aprendizajes.</small></span></div>
-          <div><i class="legend-icon spiral"></i><span><strong>Espiral</strong><small>Evolución, tiempo y transformación.</small></span></div>
-          <div><i class="legend-icon waves"></i><span><strong>Ondas</strong><small>Comunicación, influencia e impacto.</small></span></div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="secondary-grid">
-      <section class="panel examples-panel">
-        <div class="section-header">
-          <div>
-            <span class="eyebrow">Ejemplos</span>
-            <h2>Firmas geométricas de referencia</h2>
-          </div>
-          <button id="refreshExamples" class="ghost">Nuevas muestras</button>
-        </div>
-        <div id="examplesGrid" class="examples-grid"></div>
-      </section>
-
-      <section class="panel pendant-panel">
-        <div class="section-header">
-          <div>
-            <span class="eyebrow">Aplicación física</span>
-            <h2>Así se ve tu firma en un colgante</h2>
-          </div>
-        </div>
-
-        <div class="pendant-stage">
-          <div class="cord"></div>
-          <div class="bail"></div>
-          <div class="pendant">
-            <svg id="pendantSvg" viewBox="-420 -420 840 840" aria-label="Colgante personalizado"></svg>
-          </div>
-        </div>
-        <p>Tu firma funciona como identidad visual, emblema, protección simbólica y pieza de joyería.</p>
-      </section>
-    </section>
-
-    <section class="panel optical-panel">
-      <div class="section-header">
-        <div>
-          <span class="eyebrow">Lectura óptica</span>
-          <h2>Descomposición de la firma</h2>
-        </div>
-      </div>
-      <div id="opticalSequence" class="optical-sequence"></div>
-    </section>
-
-    <section class="panel history-panel">
-      <div class="section-header">
-        <div>
-          <span class="eyebrow">Archivo personal</span>
-          <h2>Firmas recientes</h2>
-        </div>
-        <button id="clearHistory" class="ghost">Limpiar</button>
-      </div>
-      <div id="history" class="history-grid"></div>
-    </section>
-
-    <footer>La firma no se escribe. La identidad se construye. La geometría es el nombre.</footer>
-  </main>
-
-  <script src="./app.js"></script>
-</body>
-</html>
+<div class="app">
+<header class="panel"><div><span class="eyebrow">Civilización Joviana · Sistema universal de identidad</span><h1>LENGUAJE GEOMÉTRICO UNIVERSAL</h1><p>Cada nombre genera una firma irrepetible, repetible y lista para convertirse en joyería.</p></div><span class="status">Motor V17 activo</span></header>
+<section class="grid">
+<aside class="panel side">
+<div class="title"><b>Generador de identidad</b><small>Huella nominal</small></div>
+<label>Nombre completo</label><input id="name" type="text" value="MARIA MAGDALENA VAZQUEZ"><button id="generate" class="primary">Construir firma</button>
+<div class="section"><h3>Modo visual</h3><div class="segmented" id="modes"><button data-mode="jewelry" class="active">Joyería</button><button data-mode="ceremonial">Ceremonial</button><button data-mode="technical">Técnico</button><button data-mode="minimal">Minimal</button></div></div>
+<div class="section"><h3>Ocupación del colgante</h3><input id="coverage" type="range" min="90" max="95" value="94"><div class="range"><span>90%</span><strong id="covVal">94%</strong><span>95%</span></div></div>
+<div class="section"><h3>Complejidad controlada</h3><input id="complexity" type="range" min="40" max="100" value="74"><div class="range"><span>Esencial</span><strong id="comVal">74%</strong><span>Detallada</span></div></div>
+<div class="section"><h3>Grosor de grabado</h3><input id="stroke" type="range" min=".7" max="2.2" step=".1" value="1.2"><div class="range"><span>Fino</span><strong id="strVal">1.2 mm</strong><span>Marcado</span></div></div>
+<div class="section"><h3>Identidad técnica</h3><code id="code">LG-00-000-0-0-0</code><small id="seed"></small><small id="arch"></small></div>
+</aside>
+<section class="panel main">
+<div class="signature-title"><span>Firma geométrica personal</span><strong id="displayName"></strong><small id="traits"></small></div>
+<div class="stage"><div class="cord"></div><div class="bail"></div><div class="pendant">
+<svg id="svg" viewBox="-500 -500 1000 1000">
+<defs>
+<filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b1"/><feGaussianBlur stdDeviation="18" result="b2"/><feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<radialGradient id="core"><stop offset="0" stop-color="#fff"/><stop offset=".13" stop-color="#dffcff"/><stop offset=".38" stop-color="#00d9ff"/><stop offset=".72" stop-color="#00577a" stop-opacity=".65"/><stop offset="1" stop-color="#001018" stop-opacity="0"/></radialGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6f3d13"/><stop offset=".2" stop-color="#c47c2d"/><stop offset=".42" stop-color="#f6c65b"/><stop offset=".52" stop-color="#fff1b5"/><stop offset=".68" stop-color="#f6c65b"/><stop offset=".86" stop-color="#a25b1e"/><stop offset="1" stop-color="#56300f"/></linearGradient>
+</defs><g id="guide"></g><g id="orbits"></g><g id="curves"></g><g id="waves"></g><g id="radials"></g><g id="glowLayer" filter="url(#glow)"></g><g id="primary" filter="url(#soft)"></g><g id="nodes"></g><g id="coreLayer"></g>
+</svg></div></div>
+<div class="actions"><button id="svgBtn">SVG fabricación</button><button id="pngBtn">PNG 4K</button><button id="jsonBtn">JSON técnico</button><button id="copyBtn">Copiar código</button></div>
+</section>
+<aside class="panel side"><div class="title"><b>Lectura del patrón</b><small>Joyería</small></div><div id="metrics" class="metrics"></div><div class="section"><h3>Composición</h3><div id="reading"></div></div><div class="section"><h3>Evaluación</h3><div id="checks"></div></div><blockquote id="message"></blockquote></aside>
+</section>
+<section class="panel bottom"><span class="eyebrow">Prueba de unicidad</span><h2>La misma identidad siempre produce la misma firma</h2><div class="finger"><div><h3>Secuencia nominal</h3><code id="sequence"></code></div><div><h3>Huella de parámetros</h3><code id="params"></code></div><div><h3>Fabricación</h3><b id="manufacture"></b></div></div></section>
+<section class="panel bottom"><div class="title"><b>Firmas recientes</b><button id="clear">Limpiar</button></div><div id="history" class="history"></div></section>
+<footer>La firma no se escribe. La identidad se construye. La geometría es el nombre.</footer>
+</div>
+<script>
+const A="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ",V=new Set(["A","E","I","O","U"]),ARCH=["Corona Orbital","Matriz Hexa-Radial","Nexo Cristalino","Portal de Linaje","Rosa de Frecuencia","Catedral de Nodos","Espiral Armónica","Doble Umbral","Órbita Solar","Malla de Convergencia","Ojo Geométrico","Sello de Resonancia"],TRAITS=["Visión","Lealtad","Protección","Sabiduría","Creación","Justicia","Intuición","Propósito","Equilibrio","Liderazgo","Claridad","Transformación","Disciplina","Conexión"];let S={name:"MARIA MAGDALENA VAZQUEZ",mode:"jewelry",coverage:94,complexity:74,stroke:1.2};
+const N=x=>(x||"AEON").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/Ü/g,"U").replace(/[^A-ZÑ\s'-]/g,"").replace(/\s+/g," ").trim()||"AEON",val=c=>A.indexOf(c)+1,hash=s=>{let h=2166136261>>>0;for(let c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0},dr=n=>{while(n>9)n=[...String(n)].reduce((a,b)=>a+ +b,0);return n};
+function analyze(raw){let n=N(raw),l=[...n].filter(c=>A.includes(c)),v=l.map(val),sum=v.reduce((a,b)=>a+b,0),cnt={};l.forEach(c=>cnt[c]=(cnt[c]||0)+1);let u=[...new Set(l)],voc=l.filter(c=>V.has(c)).length,f=dr(sum),seed=hash(n+"|"+v.join(".")+"|V17");return{n,l,v,sum,u,voc,con:l.length-voc,f,seed,seq:v.map(x=>String(x).padStart(2,"0")).join("."),rep:Object.values(cnt).filter(x=>x>1).length,axes:7+u.length%7,rings:3+f%4,sides:5+sum%7,arch:seed%ARCH.length}}
+const ns=(t,a={})=>{let e=document.createElementNS("http://www.w3.org/2000/svg",t);for(let k in a)e.setAttribute(k,a[k]);return e},clear=e=>{while(e.firstChild)e.removeChild(e.firstChild)},d=p=>p.map((q,i)=>(i?"L":"M")+" "+q[0].toFixed(2)+" "+q[1].toFixed(2)).join(" ");
+function poly(s,r,o=0){let p=[];for(let i=0;i<=s;i++){let a=o+(i%s)*Math.PI*2/s;p.push([Math.cos(a)*r,Math.sin(a)*r])}return p}function circ(r,n=160,o=0,sx=1,sy=1){let p=[];for(let i=0;i<=n;i++){let a=o+i*Math.PI*2/n;p.push([Math.cos(a)*r*sx,Math.sin(a)*r*sy])}return p}function spiral(r0,r1,t,o=0,n=180){let p=[];for(let i=0;i<=n;i++){let z=i/n,a=o+z*Math.PI*2*t,r=r0+(r1-r0)*z;p.push([Math.cos(a)*r,Math.sin(a)*r])}return p}function wave(L,amp,cy,rot=0,off=0,n=160){let p=[],c=Math.cos(rot),s=Math.sin(rot);for(let i=0;i<=n;i++){let z=i/n,x=-L/2+z*L,y=Math.sin(z*Math.PI*2*cy+off)*amp;p.push([x*c-y*s,x*s+y*c])}return p}function bez(p0,p1,p2,p3,n=100){let p=[];for(let i=0;i<=n;i++){let t=i/n,u=1-t;p.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}return p}function rose(r,k,o=0,n=240){let p=[];for(let i=0;i<=n;i++){let a=i*Math.PI*2/n,rr=r*Math.cos(k*a+o);p.push([Math.cos(a)*rr,Math.sin(a)*rr])}return p}function path(g,p,o={}){g.appendChild(ns("path",{d:d(p),fill:"none",stroke:o.stroke||"url(#gold)","stroke-width":o.w||1.2,opacity:o.op??1,"stroke-linecap":"round","stroke-linejoin":"round"}))}function circle(g,x,y,r,o={}){g.appendChild(ns("circle",{cx:x,cy:y,r,fill:o.fill||"none",stroke:o.stroke||"url(#gold)","stroke-width":o.w||1.2,opacity:o.op??1}))}
+function model(a){let m={p:[],o:[],c:[],w:[],r:[],n:[]},ph=(a.v[0]-1)*Math.PI*2/27,R=455*S.coverage/95,inn=75;m.p.push(poly(a.sides,R,ph*.09),poly(a.sides,R*.76,-ph*.07),poly(3,R*.78,-Math.PI/2),poly(3,R*.78,Math.PI/2));if(a.arch%3===0)m.p.push(poly(4,R*.63,Math.PI/4+ph*.04));if(a.arch%3===1)m.p.push(poly(6,R*.58,ph*.06));if(a.arch%3===2)m.p.push(rose(R*.46,3+a.f%5,ph*.1));for(let i=0;i<a.rings;i++)m.o.push(circ(R*(.34+i*.13),180,ph*.03+i*.14,1,.74+(i%2)*.18));for(let i=0;i<a.axes;i++){let z=ph+i*Math.PI*2/a.axes,r1=inn+i%3*12,r2=R*(.84+i%2*.06);m.r.push([[Math.cos(z)*r1,Math.sin(z)*r1],[Math.cos(z)*r2,Math.sin(z)*r2]])}let cc=3+Math.floor(S.complexity/22);for(let i=0;i<cc;i++){let v=a.v[i%a.v.length],z=ph+i*Math.PI*2/cc,p0=[Math.cos(z)*90,Math.sin(z)*90],p3=[Math.cos(z+.7+(v%5)*.07)*R*.78,Math.sin(z+.7+(v%5)*.07)*R*.78],p1=[Math.cos(z+.18)*R*.42,Math.sin(z+.18)*R*.42],p2=[Math.cos(z+.52)*R*.62,Math.sin(z+.52)*R*.62];m.c.push(bez(p0,p1,p2,p3))}for(let i=0;i<2+a.voc%3;i++)m.w.push(wave(R*1.35,12+a.v[i%a.v.length]%6*3,2+a.v[(i+1)%a.v.length]%4,ph+i*Math.PI/2,a.f*.4+i));for(let i=0;i<1+a.rep;i++)m.c.push(spiral(18+i*8,R*(.24+i*.1),1.25+a.v[i%a.v.length]%7*.15,ph+i*Math.PI));let nc=Math.min(40,a.l.length+a.u.length+Math.floor(S.complexity/5));for(let i=0;i<nc;i++){let v=a.v[i%a.v.length],z=(v-1)*Math.PI*2/27+i*.19,rad=R*(.23+i%6*.105);m.n.push([Math.cos(z)*rad,Math.sin(z)*rad,2.5+v%4])}return m}
+function draw(a){let ids=["guide","orbits","curves","waves","radials","glowLayer","primary","nodes","coreLayer"],g={};ids.forEach(id=>{g[id]=document.getElementById(id);clear(g[id])});let m=model(a),w=S.stroke,main=S.mode==="technical"?"#d8e7ef":"url(#gold)",sec=S.mode==="technical"?"#7395a6":"url(#gold)";circle(g.guide,0,0,470,{w:.7,op:.12});circle(g.guide,0,0,455,{w:.5,op:.08});m.o.forEach(p=>path(g.orbits,p,{w:w*.7,op:.38,stroke:sec}));m.c.forEach((p,i)=>path(g.curves,p,{w:w*.82,op:i%2?.42:.55,stroke:i%4===0?"#00d9ff":sec}));m.w.forEach((p,i)=>path(g.waves,p,{w:w*.72,op:.42,stroke:i%2?"#00d9ff":sec}));m.r.forEach(p=>path(g.radials,p,{w:w*.72,op:.46,stroke:sec}));m.p.forEach(p=>{path(g.glowLayer,p,{w:w*6,op:.56,stroke:main});path(g.primary,p,{w:w*1.55,op:.98,stroke:main})});m.n.forEach(([x,y,r],i)=>circle(g.nodes,x,y,r,{fill:i%5===0?"#dffcff":"#f6c65b",stroke:"none",op:.84}));circle(g.coreLayer,0,0,70,{fill:"url(#core)",stroke:"none",op:.98});circle(g.coreLayer,0,0,26,{fill:"#031927",stroke:"#00d9ff",w:1.3,op:.98});circle(g.coreLayer,0,0,8,{fill:"#fff",stroke:"none"})}
+function traits(a){let o=[];for(let i=0;i<5;i++)o.push(TRAITS[(a.seed+i*7+a.v[i%a.v.length])%TRAITS.length]);return[...new Set(o)].slice(0,5)}function update(save=true){let a=analyze(S.name),t=traits(a),code=`LG-${String(a.l.length).padStart(2,"0")}-${String(a.sum).padStart(3,"0")}-${a.f}-${a.voc}-${a.u.length}`;displayName.textContent=a.n;document.getElementById("code").textContent=code;seed.textContent="Semilla: "+a.seed.toString(16).toUpperCase().padStart(8,"0");arch.textContent="Arquitectura: "+ARCH[a.arch];document.getElementById("traits").textContent=t.join(" · ");sequence.textContent=a.seq;params.textContent=`A${a.arch}-E${a.axes}-O${a.rings}-P${a.sides}-C${S.complexity}-R${S.coverage}-S${S.stroke}`;metrics.innerHTML=[["Letras",a.l.length],["Frecuencia",a.f],["Ejes",a.axes],["Órbitas",a.rings],["Cobertura",S.coverage+"%"],["Arquitectura",ARCH[a.arch]]].map(x=>`<div class="metric"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join("");reading.innerHTML=[["◎","Órbitas","Ciclos y continuidad"],["≋","Ondas","Comunicación e influencia"],["✹","Radiales","Dirección y decisión"],["⌒","Curvas","Integración y enlace"],["●","Nodos","Memoria y experiencia"],["⬡","Estructura","Identidad exterior"]].map(x=>`<div class="item"><div class="sym">${x[0]}</div><div><b>${x[1]}</b><small>${x[2]}</small></div></div>`).join("");checks.innerHTML=[["Cobertura útil",S.coverage+"%"],["Marco circular","Fijo"],["Continuidad","Aprobada"],["Separación mínima",S.stroke<=1.5?"Óptima":"Revisar"],["Simetría","Aprobada"],["Repetibilidad","Determinista"]].map(x=>`<div class="check"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");manufacture.textContent=S.stroke<=1.5?"Apta para grabado y corte fino":"Apta con ajuste de escala";message.textContent=`“La firma de ${a.n} ocupa el ${S.coverage}% del colgante y conserva un marco circular permanente. Su geometría funciona como una huella digital: única, repetible y verificable.”`;draw(a);if(save){let h=JSON.parse(localStorage.getItem("firmas-v17")||"[]");localStorage.setItem("firmas-v17",JSON.stringify([{name:a.n,code},...h.filter(x=>x.name!==a.n)].slice(0,12)));renderHistory()}}
+function renderHistory(){let h=JSON.parse(localStorage.getItem("firmas-v17")||"[]");history.innerHTML=h.map(x=>`<div data-name="${x.name}"><b>${x.name}</b><small>${x.code}</small></div>`).join("");history.querySelectorAll("div").forEach(e=>e.onclick=()=>{S.name=e.dataset.name;name.value=S.name;update(false)})}
+generate.onclick=()=>{S.name=name.value;update()};name.onkeydown=e=>{if(e.key==="Enter"){S.name=name.value;update()}};modes.onclick=e=>{let b=e.target.closest("button[data-mode]");if(!b)return;modes.querySelectorAll("button").forEach(x=>x.classList.remove("active"));b.classList.add("active");S.mode=b.dataset.mode;update(false)};coverage.oninput=e=>{S.coverage=+e.target.value;covVal.textContent=S.coverage+"%";update(false)};complexity.oninput=e=>{S.complexity=+e.target.value;comVal.textContent=S.complexity+"%";update(false)};stroke.oninput=e=>{S.stroke=+e.target.value;strVal.textContent=S.stroke.toFixed(1)+" mm";update(false)};clear.onclick=()=>{localStorage.removeItem("firmas-v17");renderHistory()};copyBtn.onclick=()=>navigator.clipboard.writeText(document.getElementById("code").textContent);function serialize(){let s=document.getElementById("svg").cloneNode(true);s.setAttribute("xmlns","http://www.w3.org/2000/svg");return new XMLSerializer().serializeToString(s)}svgBtn.onclick=()=>{let a=document.createElement("a");a.download=N(S.name)+"-firma-fabricacion.svg";a.href=URL.createObjectURL(new Blob([serialize()],{type:"image/svg+xml"}));a.click()};pngBtn.onclick=()=>{let i=new Image(),u=URL.createObjectURL(new Blob([serialize()],{type:"image/svg+xml"}));i.onload=()=>{let c=document.createElement("canvas");c.width=c.height=4096;let x=c.getContext("2d");x.fillStyle="#030712";x.fillRect(0,0,4096,4096);x.drawImage(i,0,0,4096,4096);let a=document.createElement("a");a.download=N(S.name)+"-firma-4K.png";a.href=c.toDataURL();a.click()};i.src=u};jsonBtn.onclick=()=>{let d=analyze(S.name),a=document.createElement("a");a.download=d.n+"-firma.json";a.href=URL.createObjectURL(new Blob([JSON.stringify({...d,architecture:ARCH[d.arch],coverage:S.coverage,complexity:S.complexity,stroke:S.stroke},null,2)],{type:"application/json"}));a.click()};S.name=name.value;update(false);renderHistory();
+</script>
+</body></html>
