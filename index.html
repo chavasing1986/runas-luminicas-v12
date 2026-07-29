@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04070b">
+<title>Lenguaje Geométrico Universal V40</title>
+<style>
+:root{
+  --bg:#04070b;--panel:#08111c;--gold:#d39a49;--gold2:#f6c86e;--gold3:#ffe9ad;
+  --cyan:#00d8ff;--text:#e8eef6;--muted:#8794a6;--line:rgba(211,154,73,.32);--line2:rgba(211,154,73,.14);--ok:#8ce7aa
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{
+  background:
+  radial-gradient(circle at 50% -10%,rgba(0,216,255,.08),transparent 30%),
+  radial-gradient(circle at 50% 25%,rgba(211,154,73,.055),transparent 38%),
+  linear-gradient(180deg,#03060a,#060a11 54%,#03060a)
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;
+  background-image:radial-gradient(circle,#fff 0 1px,transparent 1.2px),radial-gradient(circle,#00d8ff 0 1px,transparent 1.2px);
+  background-size:121px 121px,181px 181px;background-position:0 0,41px 61px
+}
+.app{position:relative;max-width:1920px;margin:auto;padding:14px}
+.frame{
+  position:relative;border:1px solid var(--line);border-radius:18px;
+  background:linear-gradient(180deg,rgba(8,15,24,.95),rgba(4,8,14,.98));
+  box-shadow:0 26px 90px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.015)
+}
+.frame:before,.frame:after{content:"";position:absolute;width:16px;height:16px;border-color:var(--gold)}
+.frame:before{left:-1px;top:-1px;border-left:2px solid;border-top:2px solid;border-radius:18px 0 0 0}
+.frame:after{right:-1px;bottom:-1px;border-right:2px solid;border-bottom:2px solid;border-radius:0 0 18px 0}
+.header{display:grid;grid-template-columns:300px 1fr 300px;gap:14px;align-items:center;padding:14px 16px;margin-bottom:14px}
+.brand small,.meta small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-size:9px}
+.brand b{display:block;margin:4px 0;color:var(--gold2);font-family:Georgia,serif;letter-spacing:.1em;font-size:15px}
+.title{text-align:center}
+.title .kicker{color:var(--gold);font-family:Georgia,serif;letter-spacing:.18em;font-size:11px;text-transform:uppercase}
+.title h1{margin:5px 0 0;color:var(--gold2);font-family:Georgia,serif;letter-spacing:.16em;font-size:clamp(24px,2.7vw,40px)}
+.title code{display:block;margin-top:8px;color:#bc8544;font-size:10px;letter-spacing:.18em}
+.meta{text-align:right}.meta strong{display:block;color:var(--ok);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.dashboard{display:grid;grid-template-columns:250px minmax(740px,1fr) 250px;gap:14px}
+.column{display:grid;gap:14px;align-content:start}
+.panel{padding:14px}
+.panel h2{margin:0 0 12px;color:var(--gold2);font-family:Georgia,serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+label{display:block;margin:12px 0 6px;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.13em}
+input[type=text]{width:100%;padding:11px 12px;border-radius:9px;border:1px solid rgba(211,154,73,.3);background:#050b13;color:#fff2c8;outline:none}
+input[type=text]:focus{border-color:rgba(246,200,110,.72);box-shadow:0 0 0 3px rgba(246,200,110,.06)}
+button{cursor:pointer;padding:10px 12px;border-radius:9px;border:1px solid rgba(211,154,73,.25);background:linear-gradient(180deg,#151d28,#0b111a);color:#d7e0eb;transition:.18s}
+button:hover{transform:translateY(-1px);border-color:rgba(246,200,110,.56);color:#fff2c8}
+.primary{width:100%;margin-top:9px;background:linear-gradient(90deg,#6e4312,#9b631d);color:#fff1c0;border-color:#d39a49}
+.control{margin-top:11px;padding-top:11px;border-top:1px solid var(--line2)}
+.control label{display:flex;justify-content:space-between;margin:0}.control input{width:100%;accent-color:var(--gold2)}
+.symbol-list{display:grid;gap:8px}
+.symbol{display:grid;grid-template-columns:28px 1fr;gap:9px;align-items:center}
+.icon{width:28px;height:28px;border:1px solid rgba(211,154,73,.42);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:12px}
+.symbol b{display:block;color:#d9a45b;font-size:10px;letter-spacing:.06em}.symbol small{display:block;color:#8d99aa;font-size:9px;line-height:1.35}
+.hero{padding:14px}
+.hero-stage{
+  min-height:710px;border:1px solid rgba(211,154,73,.11);border-radius:18px;
+  background:
+  radial-gradient(circle at 50% 50%,rgba(211,154,73,.09),transparent 35%),
+  radial-gradient(circle at 50% 50%,rgba(0,216,255,.05),transparent 18%),
+  linear-gradient(180deg,#070b11,#020405);
+  display:grid;place-items:center;overflow:hidden
+}
+.hero svg{width:min(780px,95%);aspect-ratio:1}
+.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.reading{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.row span{color:#aab4c2;font-size:10px}.row b{color:var(--gold2);font-size:10px}
+.quote{margin:0;padding:13px;border:1px solid rgba(0,216,255,.18);border-radius:12px;background:rgba(0,216,255,.035);color:#dffbff;font-family:Georgia,serif;line-height:1.5;font-size:13px}
+.bottom-grid{display:grid;grid-template-columns:1.15fr 1fr .8fr 1fr;gap:14px;margin-top:14px}
+.bottom-card{padding:14px;min-height:178px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.step{text-align:center}.step .mini{aspect-ratio:1;border:1px solid rgba(211,154,73,.18);border-radius:50%;background:radial-gradient(circle,rgba(211,154,73,.08),transparent 60%);display:grid;place-items:center;color:var(--gold2);font-size:20px}
+.step b{display:block;margin-top:7px;color:#d4a052;font-size:9px;letter-spacing:.08em;text-transform:uppercase}.step small{color:#7f8a9b;font-size:8px}
+.wavebox{height:120px;border-radius:12px;background:linear-gradient(180deg,rgba(0,216,255,.04),transparent),#050b13;border:1px solid rgba(0,216,255,.1);overflow:hidden}
+.wavebox svg{width:100%;height:100%}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.stat{padding:9px;border:1px solid var(--line2);border-radius:10px;background:#07101a}.stat small{display:block;color:#788698;font-size:8px;text-transform:uppercase}.stat b{display:block;color:var(--gold2);font-size:18px;margin-top:3px}
+.radar{width:132px;height:132px;margin:auto;border-radius:50%;position:relative;background:radial-gradient(circle,transparent 0 18%,rgba(211,154,73,.25) 18.5% 19%,transparent 19.5% 38%,rgba(211,154,73,.22) 38.5% 39%,transparent 39.5% 58%,rgba(211,154,73,.18) 58.5% 59%,transparent 59.5%),conic-gradient(from 0deg,rgba(0,216,255,.28),rgba(211,154,73,.12),rgba(0,216,255,.28));border:1px solid rgba(211,154,73,.32)}
+.radar:before,.radar:after{content:"";position:absolute;background:rgba(211,154,73,.28)}.radar:before{left:50%;top:0;bottom:0;width:1px}.radar:after{top:50%;left:0;right:0;height:1px}
+.pendant-preview{display:grid;grid-template-rows:1fr auto;min-height:178px;text-align:center}
+.pendant-thumb{margin:auto;width:122px;height:122px;border-radius:50%;border:5px solid #946323;background:radial-gradient(circle,#0d1625,#020304 72%);box-shadow:0 0 18px rgba(211,154,73,.18);display:grid;place-items:center}
+.pendant-thumb svg{width:91%;height:91%}
+.pendant-preview small{color:#8d98a8;font-size:9px;line-height:1.4}
+.history{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:14px}
+.history-card{padding:10px;border:1px solid var(--line2);border-radius:10px;background:#07101a;cursor:pointer}.history-card b,.history-card small{display:block}.history-card b{color:#fff0bd;font-size:10px}.history-card small{color:#6f7c8d;font-size:8px;margin-top:4px}
+footer{text-align:center;color:#667487;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:20px}
+@media(max-width:1450px){.dashboard{grid-template-columns:1fr}.header{grid-template-columns:1fr;text-align:center}.meta{text-align:center}.bottom-grid{grid-template-columns:1fr 1fr}.history{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.app{padding:8px}.bottom-grid{grid-template-columns:1fr}.history{grid-template-columns:1fr 1fr}.hero-stage{min-height:490px}.steps{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="frame header">
+  <div class="brand"><small>Lenguaje geométrico</small><b>CIVILIZACIÓN JOVIANA</b><small>Motor arquitectónico V40</small></div>
+  <div class="title"><div class="kicker">Firma geométrica personal</div><h1 id="displayName">MARIA MAGDALENA VAZQUEZ</h1><code id="signatureCode">CÓDIGO DE FIRMA</code></div>
+  <div class="meta"><strong>Motor arquitectónico activo</strong><small>Retícula · Nodos · Órbitas · Microestructura</small></div>
+</section>
+
+<section class="dashboard">
+<aside class="column">
+  <section class="frame panel">
+    <h2>Generador de firma</h2>
+    <label>Nombre completo</label><input id="nameInput" value="MARIA MAGDALENA VAZQUEZ">
+    <button id="generateBtn" class="primary">Construir arquitectura</button>
+    <div class="control"><label><span>Cobertura</span><b id="coverageValue">95%</b></label><input id="coverage" type="range" min="90" max="95" value="95"></div>
+    <div class="control"><label><span>Densidad estructural</span><b id="densityValue">92%</b></label><input id="density" type="range" min="65" max="100" value="92"></div>
+    <div class="control"><label><span>Microdetalle</span><b id="microValue">88%</b></label><input id="micro" type="range" min="55" max="100" value="88"></div>
+    <div class="control"><label><span>Grosor</span><b id="strokeValue">1.0 mm</b></label><input id="stroke" type="range" min=".6" max="1.6" step=".1" value="1.0"></div>
+  </section>
+
+  <section class="frame panel">
+    <h2>Composición de la firma</h2>
+    <div class="symbol-list">
+      <div class="symbol"><div class="icon">◉</div><div><b>Núcleo energético</b><small>Centro visual y origen de la arquitectura.</small></div></div>
+      <div class="symbol"><div class="icon">△</div><div><b>Triangulación primaria</b><small>Esqueleto principal de tensión.</small></div></div>
+      <div class="symbol"><div class="icon">◌</div><div><b>Órbitas superpuestas</b><small>Movimiento, tiempo y continuidad.</small></div></div>
+      <div class="symbol"><div class="icon">✦</div><div><b>Nodos jerárquicos</b><small>Puntos de información y memoria.</small></div></div>
+      <div class="symbol"><div class="icon">⌁</div><div><b>Puentes curvos</b><small>Integración de regiones distantes.</small></div></div>
+      <div class="symbol"><div class="icon">≋</div><div><b>Interferencia ondulatoria</b><small>Frecuencia y comunicación.</small></div></div>
+      <div class="symbol"><div class="icon">⊚</div><div><b>Microórbitas</b><small>Segundo nivel de detalle.</small></div></div>
+      <div class="symbol"><div class="icon">⟐</div><div><b>Retícula terciaria</b><small>Densidad sin saturación.</small></div></div>
+    </div>
+  </section>
+</aside>
+
+<main class="frame hero">
+  <div class="hero-stage">
+    <svg id="signatureSvg" viewBox="-500 -500 1000 1000">
+      <defs>
+        <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5.5" result="a"/><feGaussianBlur stdDeviation="16" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="a"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2" result="a"/><feMerge><feMergeNode in="a"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e4318"/><stop offset=".22" stop-color="#c88a35"/><stop offset=".5" stop-color="#ffe8a8"/><stop offset=".72" stop-color="#dfa44a"/><stop offset="1" stop-color="#704319"/></linearGradient>
+        <radialGradient id="core"><stop offset="0" stop-color="#fff"/><stop offset=".13" stop-color="#dffcff"/><stop offset=".38" stop-color="#00d8ff"/><stop offset=".74" stop-color="#005d7a" stop-opacity=".58"/><stop offset="1" stop-color="#001018" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g id="guideLayer"></g><g id="microOrbitLayer"></g><g id="orbitLayer"></g><g id="tertiaryLayer"></g><g id="curveLayer"></g><g id="waveLayer"></g><g id="secondaryLayer"></g><g id="glowLayer" filter="url(#glow)"></g><g id="primaryLayer" filter="url(#soft)"></g><g id="nodeLayer"></g><g id="coreLayer"></g>
+    </svg>
+  </div>
+  <div class="actions"><button id="svgBtn">SVG fabricación</button><button id="pngBtn">PNG 8K</button><button id="jsonBtn">JSON técnico</button><button id="copyBtn">Copiar código</button></div>
+</main>
+
+<aside class="column">
+  <section class="frame panel"><h2>Esencia de tu firma</h2><p class="quote" id="essenceText"></p></section>
+  <section class="frame panel"><h2>Interpretación</h2><div id="readingPanel" class="reading"></div></section>
+  <section class="frame panel"><h2>Validación de joyería</h2><div id="validationPanel" class="reading"></div></section>
+</aside>
+</section>
+
+<section class="bottom-grid">
+  <section class="frame bottom-card">
+    <h2>Lectura óptica</h2>
+    <div class="steps"><div class="step"><div class="mini">◉</div><b>Núcleo</b><small>Origen</small></div><div class="step"><div class="mini">△</div><b>Esqueleto</b><small>Tensión</small></div><div class="step"><div class="mini">⟐</div><b>Microred</b><small>Densidad</small></div><div class="step"><div class="mini">◌</div><b>Expansión</b><small>Órbitas</small></div></div>
+  </section>
+  <section class="frame bottom-card">
+    <h2>Frecuencia y propósito</h2>
+    <div class="wavebox"><svg viewBox="0 0 600 150"><path id="frequencyWave" d="" fill="none" stroke="#d39a49" stroke-width="1.5"/><path id="frequencyWave2" d="" fill="none" stroke="#00d8ff" stroke-width="1" opacity=".55"/><circle cx="300" cy="75" r="18" fill="url(#core)"/></svg></div>
+    <div class="stats"><div class="stat"><small>Frecuencia base</small><b id="frequencyValue"></b></div><div class="stat"><small>Propósito central</small><b id="purposeValue" style="font-size:11px"></b></div></div>
+  </section>
+  <section class="frame bottom-card"><h2>Elementos dominantes</h2><div class="radar"></div><div id="dominants" class="reading"></div></section>
+  <section class="frame bottom-card pendant-preview"><div><h2>Firma en colgante</h2><div class="pendant-thumb"><svg id="pendantSvg" viewBox="-500 -500 1000 1000"></svg></div></div><small>Arquitectura de alta densidad, diseñada para ocupar 90–95% del disco sin perder legibilidad.</small></section>
+</section>
+
+<section class="frame panel" style="margin-top:14px"><div class="title"><b>Archivo de identidades</b><button id="clearHistory">Limpiar</button></div><div id="history" class="history"></div></section>
+<footer>La firma no es un mandala. Es una arquitectura nominal irrepetible.</footer>
+</div>
+
+<script>
+const ALPHABET="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ",VOWELS=new Set(["A","E","I","O","U"]);
+let STATE={name:"MARIA MAGDALENA VAZQUEZ",coverage:95,density:92,micro:88,stroke:1.0};
+
+function normalize(v){return(v||"AEON").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/Ü/g,"U").replace(/[^A-ZÑ\\s'-]/g,"").replace(/\\s+/g," ").trim()||"AEON"}
+function val(c){return ALPHABET.indexOf(c)+1}
+function hash(s){let h=2166136261>>>0;for(let c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function root(n){while(n>9)n=[...String(n)].reduce((a,b)=>a+ +b,0);return n}
+function analyze(raw){
+  let n=normalize(raw),letters=[...n].filter(c=>ALPHABET.includes(c)),values=letters.map(val),sum=values.reduce((a,b)=>a+b,0),counts={};
+  letters.forEach(c=>counts[c]=(counts[c]||0)+1);
+  let unique=[...new Set(letters)],vowels=letters.filter(c=>VOWELS.has(c)).length,frequency=root(sum),seed=hash(n+"|"+values.join(".")+"|ARCH-V40");
+  return{n,letters,values,sum,counts,unique,vowels,consonants:letters.length-vowels,frequency,seed,repeats:Object.values(counts).filter(x=>x>1).length}
+}
+const ns=(tag,a={})=>{let e=document.createElementNS("http://www.w3.org/2000/svg",tag);for(let k in a)e.setAttribute(k,a[k]);return e}
+const clear=e=>{while(e.firstChild)e.removeChild(e.firstChild)}
+const pd=p=>p.map((q,i)=>(i?"L":"M")+" "+q[0].toFixed(2)+" "+q[1].toFixed(2)).join(" ")
+function path(g,p,o={}){g.appendChild(ns("path",{d:pd(p),fill:"none",stroke:o.stroke||"url(#gold)","stroke-width":o.w||1,opacity:o.op??1,"stroke-linecap":"round","stroke-linejoin":"round"}))}
+function circle(g,x,y,r,o={}){g.appendChild(ns("circle",{cx:x,cy:y,r,fill:o.fill||"none",stroke:o.stroke||"url(#gold)","stroke-width":o.w||1,opacity:o.op??1}))}
+function ellipse(r,n=180,rot=0,sx=1,sy=.72,cx=0,cy=0){let p=[];for(let i=0;i<=n;i++){let a=i*Math.PI*2/n,x=Math.cos(a)*r*sx,y=Math.sin(a)*r*sy,c=Math.cos(rot),s=Math.sin(rot);p.push([x*c-y*s+cx,x*s+y*c+cy])}return p}
+function wave(L,A,C,rot=0,off=0,n=180,cx=0,cy=0){let p=[],c=Math.cos(rot),s=Math.sin(rot);for(let i=0;i<=n;i++){let t=i/n,x=-L/2+t*L,y=Math.sin(t*Math.PI*2*C+off)*A;p.push([x*c-y*s+cx,x*s+y*c+cy])}return p}
+function bez(p0,p1,p2,p3,n=80){let p=[];for(let i=0;i<=n;i++){let t=i/n,u=1-t;p.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}return p}
+function polygon(points){return[...points,points[0]]}
+function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1])}
+function nearestEdges(points,k=3){
+  let edges=[],seen=new Set();
+  points.forEach((p,i)=>{
+    let near=points.map((q,j)=>({j,d:i===j?1e9:dist(p,q)})).sort((a,b)=>a.d-b.d).slice(0,k);
+    near.forEach(x=>{let a=Math.min(i,x.j),b=Math.max(i,x.j),key=a+"-"+b;if(!seen.has(key)){seen.add(key);edges.push([points[a],points[b]])}})
+  });
+  return edges
+}
+function build(a){
+  let rnd=mulberry32(a.seed),R=455*STATE.coverage/95;
+  let M={primary:[],secondary:[],tertiary:[],orbits:[],microOrbits:[],curves:[],waves:[],nodes:[]};
+
+  // 1) nodos principales en anillos variables
+  let ringCounts=[6+(a.values[0]%4),8+(a.values[1%a.values.length]%5),10+(a.values[2%a.values.length]%6)];
+  let rings=[R*.28,R*.52,R*.78],mainNodes=[];
+  ringCounts.forEach((count,ri)=>{
+    let phase=(a.values[ri%a.values.length]-1)*Math.PI*2/27 + ri*.17;
+    for(let i=0;i<count;i++){
+      let jitter=(rnd()-.5)*.14,ang=phase+i*Math.PI*2/count+jitter;
+      let rad=rings[ri]*(.91+rnd()*.16);
+      let p=[Math.cos(ang)*rad,Math.sin(ang)*rad];
+      mainNodes.push(p);M.nodes.push([p[0],p[1],ri===2?4.5:5.5]);
+    }
+  });
+
+  // 2) esqueleto primario de gran escala
+  let outer=mainNodes.slice(ringCounts[0]+ringCounts[1]);
+  let middle=mainNodes.slice(ringCounts[0],ringCounts[0]+ringCounts[1]);
+  M.primary.push(polygon(outer));
+  M.primary.push(polygon(middle));
+  M.primary.push(...nearestEdges(outer,2+(a.frequency%2)));
+  M.primary.push(...nearestEdges(middle,3));
+  // enlaces entre anillos por ADN
+  outer.forEach((p,i)=>{
+    let idx=(i+a.values[i%a.values.length])%middle.length;
+    M.primary.push([p,middle[idx]]);
+  });
+
+  // 3) retícula secundaria densa
+  let k=3+Math.floor(STATE.density/25);
+  M.secondary.push(...nearestEdges(mainNodes,k));
+  // diagonales largas controladas
+  for(let i=0;i<Math.floor(mainNodes.length*.65);i++){
+    let p=mainNodes[i],j=(i+Math.floor(mainNodes.length/2)+(a.values[i%a.values.length]%7))%mainNodes.length;
+    M.secondary.push([p,mainNodes[j]]);
+  }
+
+  // 4) órbitas grandes y microórbitas
+  let orbitCount=5+(a.frequency%4);
+  for(let i=0;i<orbitCount;i++){
+    let rot=(a.values[i%a.values.length]-1)*Math.PI/27+i*.2;
+    M.orbits.push(ellipse(R*(.30+i*.085),180,rot,1,.58+(i%4)*.1));
+  }
+  let microCount=10+Math.floor(STATE.micro/8);
+  for(let i=0;i<microCount;i++){
+    let p=mainNodes[(i*3+a.values[i%a.values.length])%mainNodes.length];
+    let rr=18+(a.values[i%a.values.length]%8)*4;
+    M.microOrbits.push(ellipse(rr,70,i*.31,1,.65+(i%3)*.12,p[0],p[1]));
+  }
+
+  // 5) curvas de puente
+  let curveCount=8+Math.floor(STATE.micro/12);
+  for(let i=0;i<curveCount;i++){
+    let A=mainNodes[(i*2)%mainNodes.length],B=mainNodes[(i*5+a.frequency)%mainNodes.length];
+    let mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2,nx=-(B[1]-A[1]),ny=B[0]-A[0],ln=Math.hypot(nx,ny)||1;
+    let lift=(30+(a.values[i%a.values.length]%9)*9)*(i%2?1:-1);
+    let c1=[A[0]*.7+mx*.3+nx/ln*lift,A[1]*.7+my*.3+ny/ln*lift];
+    let c2=[B[0]*.7+mx*.3-nx/ln*lift,B[1]*.7+my*.3-ny/ln*lift];
+    M.curves.push(bez(A,c1,c2,B));
+  }
+
+  // 6) ondas de interferencia
+  let waveCount=3+(a.vowels%4);
+  for(let i=0;i<waveCount;i++){
+    let p=mainNodes[(i*4)%mainNodes.length],rot=i*Math.PI/waveCount+(a.frequency*.11);
+    M.waves.push(wave(R*1.45,8+(a.values[i%a.values.length]%7)*3,2+(a.values[(i+1)%a.values.length]%5),rot,a.frequency*.31+i,p[0]*.08,p[1]*.08));
+  }
+
+  // 7) retícula terciaria: puntos interpolados y mini conexiones
+  let tertiaryPts=[];
+  for(let i=0;i<Math.floor(mainNodes.length*(STATE.micro/100));i++){
+    let A=mainNodes[i%mainNodes.length],B=mainNodes[(i*7+a.values[i%a.values.length])%mainNodes.length];
+    let t=.2+rnd()*.6,p=[A[0]*(1-t)+B[0]*t,A[1]*(1-t)+B[1]*t];
+    tertiaryPts.push(p);M.nodes.push([p[0],p[1],2+(i%3)]);
+  }
+  M.tertiary.push(...nearestEdges(tertiaryPts,2));
+
+  // 8) nodos de jerarquía superior
+  for(let i=0;i<6+(a.repeats%5);i++){
+    let p=mainNodes[(i*5+a.frequency)%mainNodes.length];
+    M.nodes.push([p[0],p[1],7+(i%3)]);
+  }
+
+  return M;
+}
+function render(svg,a,mini=false){
+  if(mini){clear(svg);let defs=document.getElementById("signatureSvg").querySelector("defs").cloneNode(true);svg.appendChild(defs)}
+  let G=mini?{}:{guide:guideLayer,micro:microOrbitLayer,orbits:orbitLayer,tertiary:tertiaryLayer,curves:curveLayer,waves:waveLayer,secondary:secondaryLayer,glow:glowLayer,primary:primaryLayer,nodes:nodeLayer,core:coreLayer};
+  if(mini){["guide","micro","orbits","tertiary","curves","waves","secondary","glow","primary","nodes","core"].forEach(k=>{G[k]=ns("g");svg.appendChild(G[k])})}
+  else Object.values(G).forEach(clear);
+
+  let M=build(a),w=STATE.stroke;
+  circle(G.guide,0,0,470,{w:.7,op:.13});circle(G.guide,0,0,455,{w:.5,op:.1});
+  M.microOrbits.forEach((p,i)=>path(G.micro,p,{w:w*.42,op:.28,stroke:i%4===0?"#00d8ff":"url(#gold)"}));
+  M.orbits.forEach((p,i)=>path(G.orbits,p,{w:w*.58,op:.34,stroke:i%3===0?"#00d8ff":"url(#gold)"}));
+  M.tertiary.forEach((p,i)=>path(G.tertiary,p,{w:w*.42,op:.24,stroke:i%5===0?"#00d8ff":"url(#gold)"}));
+  M.curves.forEach((p,i)=>path(G.curves,p,{w:w*.68,op:i%3===0?.52:.4,stroke:i%5===0?"#00d8ff":"url(#gold)"}));
+  M.waves.forEach((p,i)=>path(G.waves,p,{w:w*.6,op:.42,stroke:i%2?"#00d8ff":"url(#gold)"}));
+  M.secondary.forEach((p,i)=>path(G.secondary,p,{w:w*.58,op:.38,stroke:i%8===0?"#00d8ff":"url(#gold)"}));
+  M.primary.forEach(p=>{path(G.glow,p,{w:w*5.3,op:.42});path(G.primary,p,{w:w*1.5,op:.98})});
+  M.nodes.forEach((n,i)=>circle(G.nodes,n[0],n[1],n[2],{fill:i%6===0?"#dffcff":"#e4aa53",stroke:"none",op:.92}));
+  circle(G.core,0,0,74,{fill:"url(#core)",stroke:"none",op:.98});circle(G.core,0,0,26,{fill:"#031927",stroke:"#00d8ff",w:1.2,op:.98});circle(G.core,0,0,8,{fill:"#fff",stroke:"none"});
+  return M;
+}
+function code(a){return `${a.n.split(" ").map(x=>x[0]).join("").slice(0,4)}-${String(a.sum).padStart(3,"0")}-${a.frequency}-${a.seed.toString(16).slice(-4).toUpperCase()}`}
+function update(save=true){
+  let a=analyze(STATE.name),M=render(signatureSvg,a),c=code(a);render(pendantSvg,a,true);
+  displayName.textContent=a.n;signatureCode.textContent="CÓDIGO DE FIRMA: "+c;
+  essenceText.textContent=`La firma de ${a.n} se construye como una arquitectura: ${M.primary.length} trazos primarios, ${M.secondary.length} conexiones secundarias, ${M.tertiary.length} enlaces terciarios y ${M.nodes.length} nodos jerárquicos.`;
+  readingPanel.innerHTML=[
+    ["Arquitectura primaria",M.primary.length+" trazos"],["Red secundaria",M.secondary.length+" conexiones"],["Microestructura",M.tertiary.length+" enlaces"],["Órbitas",M.orbits.length+" principales"],["Microórbitas",M.microOrbits.length+" locales"],["Nodos",M.nodes.length+" jerárquicos"]
+  ].map(x=>`<div class="row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
+  validationPanel.innerHTML=[
+    ["Cobertura útil",STATE.coverage+"%"],["Densidad",STATE.density+"%"],["Microdetalle",STATE.micro+"%"],["Repetibilidad","Determinista"],["Exportación","Vectorial"],["Joyería","Apta"]
+  ].map(x=>`<div class="row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
+  dominants.innerHTML=[
+    ["Estructura",22+a.frequency+"%"],["Conectividad",18+a.unique.length%12+"%"],["Transformación",16+a.repeats*3+"%"],["Frecuencia",15+a.vowels+"%"]
+  ].map(x=>`<div class="row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
+  frequencyValue.textContent=(6.65+a.frequency*.19).toFixed(2)+" Hz";
+  purposeValue.textContent=["UNIR · ORDENAR · TRASCENDER","PROTEGER · CONECTAR · ELEVAR","CREAR · INSPIRAR · TRANSFORMAR"][a.frequency%3];
+  drawWave(a);
+  if(save){let h=JSON.parse(localStorage.getItem("firmas-v40")||"[]");localStorage.setItem("firmas-v40",JSON.stringify([{name:a.n,code:c},...h.filter(x=>x.name!==a.n)].slice(0,12)));renderHistory()}
+}
+function drawWave(a){
+  let p1=[],p2=[];for(let x=0;x<=600;x++){let t=x/600,y1=75+Math.sin(t*Math.PI*2*(3+a.frequency))*18*Math.sin(t*Math.PI),y2=75+Math.cos(t*Math.PI*2*(5+a.vowels))*11*Math.sin(t*Math.PI);p1.push([x,y1]);p2.push([x,y2])}
+  frequencyWave.setAttribute("d",pd(p1));frequencyWave2.setAttribute("d",pd(p2))
+}
+function renderHistory(){
+  let h=JSON.parse(localStorage.getItem("firmas-v40")||"[]");history.innerHTML=h.map(x=>`<div class="history-card" data-name="${x.name}"><b>${x.name}</b><small>${x.code}</small></div>`).join("");
+  history.querySelectorAll(".history-card").forEach(e=>e.onclick=()=>{STATE.name=e.dataset.name;nameInput.value=STATE.name;update(false)})
+}
+generateBtn.onclick=()=>{STATE.name=nameInput.value;update()};
+nameInput.onkeydown=e=>{if(e.key==="Enter"){STATE.name=nameInput.value;update()}};
+coverage.oninput=e=>{STATE.coverage=+e.target.value;coverageValue.textContent=STATE.coverage+"%";update(false)};
+density.oninput=e=>{STATE.density=+e.target.value;densityValue.textContent=STATE.density+"%";update(false)};
+micro.oninput=e=>{STATE.micro=+e.target.value;microValue.textContent=STATE.micro+"%";update(false)};
+stroke.oninput=e=>{STATE.stroke=+e.target.value;strokeValue.textContent=STATE.stroke.toFixed(1)+" mm";update(false)};
+clearHistory.onclick=()=>{localStorage.removeItem("firmas-v40");renderHistory()};
+copyBtn.onclick=()=>navigator.clipboard.writeText(signatureCode.textContent);
+function serialize(){let s=signatureSvg.cloneNode(true);s.setAttribute("xmlns","http://www.w3.org/2000/svg");return new XMLSerializer().serializeToString(s)}
+svgBtn.onclick=()=>{let a=document.createElement("a");a.download=normalize(STATE.name)+"-firma-arquitectonica.svg";a.href=URL.createObjectURL(new Blob([serialize()],{type:"image/svg+xml"}));a.click()};
+pngBtn.onclick=()=>{let i=new Image(),u=URL.createObjectURL(new Blob([serialize()],{type:"image/svg+xml"}));i.onload=()=>{let c=document.createElement("canvas");c.width=c.height=8192;let x=c.getContext("2d");x.fillStyle="#04070b";x.fillRect(0,0,8192,8192);x.drawImage(i,0,0,8192,8192);let a=document.createElement("a");a.download=normalize(STATE.name)+"-firma-8K.png";a.href=c.toDataURL("image/png");a.click()};i.src=u};
+jsonBtn.onclick=()=>{let d=analyze(STATE.name),M=build(d),a=document.createElement("a");a.download=d.n+"-arquitectura-v40.json";a.href=URL.createObjectURL(new Blob([JSON.stringify({...d,metrics:{primary:M.primary.length,secondary:M.secondary.length,tertiary:M.tertiary.length,orbits:M.orbits.length,microOrbits:M.microOrbits.length,nodes:M.nodes.length},coverage:STATE.coverage,density:STATE.density,micro:STATE.micro,stroke:STATE.stroke},null,2)],{type:"application/json"}));a.click()};
+STATE.name=nameInput.value;update(false);renderHistory();
+</script>
+</body>
+</html>
